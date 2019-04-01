@@ -231,7 +231,7 @@ def build_model():
 
         final_layers.append(l_fin)
 
-    #print 'for debug purposes: unit_ptr', unit_ptr
+    #print('for debug purposes: unit_ptr', unit_ptr)
 
 
     l_out = nn.layers.ConcatLayer(final_layers, name = 'final_concat_layer')

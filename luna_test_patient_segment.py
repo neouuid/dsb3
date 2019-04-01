@@ -31,13 +31,13 @@ def test_luna3d():
         'problem_patients/1.3.6.1.4.1.14519.5.2.1.6279.6001.877026508860018521147620598474.pkl')
 
     candidates = candidates[:4]
-    print candidates
-    print '--------------'
-    print id2zyxd['1.3.6.1.4.1.14519.5.2.1.6279.6001.877026508860018521147620598474']
+    print(candidates)
+    print('--------------')
+    print(id2zyxd['1.3.6.1.4.1.14519.5.2.1.6279.6001.877026508860018521147620598474'])
 
     for k, p in enumerate(luna_data_paths):
         id = os.path.basename(p).replace('.mhd', '')
-        print id
+        print(id)
         img, origin, pixel_spacing = utils_lung.read_mhd(p)
         lung_mask = lung_segmentation.segment_HU_scan_elias(img)
         x, annotations_tf, tf_matrix, lung_mask_out = data_transforms.transform_scan3d(data=img,

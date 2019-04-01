@@ -58,7 +58,7 @@ class RepeatLayer(nn.layers.Layer):
 
         pattern = range(input.ndim)
         pattern.insert(self.axis, "x")
-        # print shape_ones, pattern
+        # print(shape_ones, pattern)
         return ones * input.dimshuffle(*pattern)
 
 
@@ -326,7 +326,7 @@ class AggAllBenignProd(nn.layers.Layer):
         return (input_shape[0], 1)
 
     def get_output_for(self, input, **kwargs):
-        if apply_nl:
+        if self.apply_nl:
             ps = nonlinearities.sigmoid(input)
         prod = T.prod(ps, axis=(1,2))
         output = 1 - prod
@@ -363,7 +363,7 @@ class Unbroadcast(nn.layers.Layer):
 
     def get_output_for(self, input, **kwargs):
         all_dims = range(len(T.shape(input)))
-        print all_dims
+        print(all_dims)
         return T.Unbroadcast(input, *all_dims)
 
 class LogMeanExp(nn.layers.Layer):

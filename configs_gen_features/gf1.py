@@ -34,9 +34,9 @@ def data_prep_function(data, pixel_spacing, p_transform=p_transform):
                                                                    p_transform=p_transform_data_in,
                                                                    lung_mask=None,
                                                                    p_transform_augment=None)
-    print 'x.shape', x.shape
+    print('x.shape', x.shape)
     x = data_transforms.pixelnormHU(x)
-    print 'x.shape', x.shape
+    print('x.shape', x.shape)
     return x, tf_matrix
 
 
@@ -46,9 +46,9 @@ nbatches_chunk = 1
 chunk_size = batch_size * nbatches_chunk
 train_valid_ids = utils.load_pkl(pathfinder.VALIDATION_SPLIT_PATH)
 train_pids, valid_pids, test_pids = train_valid_ids['training'], train_valid_ids['validation'],train_valid_ids['test']
-print 'n train', len(train_pids)
-print 'n valid', len(valid_pids)
-print 'n valid', len(test_pids)
+print('n train', len(train_pids))
+print('n valid', len(valid_pids))
+print('n valid', len(test_pids))
 
 all_pids = []
 all_pids.extend(train_pids)
@@ -181,7 +181,7 @@ def build_model():
     metadata = utils.load_pkl(os.path.join("/home/eavsteen/dsb3/storage/metadata/dsb3/models/ikorshun/","luna_c3-20170226-174919.pkl"))
 
     for i in range(-20,0):
-        print metadata['param_values'][i].shape
+        print(metadata['param_values'][i].shape)
 
     nn.layers.set_all_param_values(l_out, metadata['param_values'][:-2])
 

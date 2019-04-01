@@ -36,7 +36,7 @@ exclude_pids = []
 if os.path.isdir(outputs_path):
     exclude_pids = os.listdir(outputs_path)
     exclude_pids = [utils_lung.extract_pid_filename(p) for p in exclude_pids]
-    print exclude_pids
+    print(exclude_pids)
     for pid in exclude_pids:
         id2candidates_path.pop(pid, None)
 
@@ -50,23 +50,23 @@ data_iterator = data_iterators.CandidatesDSBDataGenerator(data_path=pathfinder.D
 def build_model():
     metadata_dir = utils.get_dir_path('models', pathfinder.METADATA_PATH)
     metadata_path = utils.find_model_metadata(metadata_dir, patch_class_config.__name__.split('.')[-1])
-    print 'loading model', metadata_path
-    print 'please check if model pkl is the correct one'
+    print('loading model', metadata_path)
+    print('please check if model pkl is the correct one')
     metadata = utils.load_pkl(metadata_path)
 
-    print 'Build model'
+    print('Build model')
     model = patch_class_config.build_model()
     all_layers = nn.layers.get_all_layers(model.l_out)
     num_params = nn.layers.count_params(model.l_out)
-    print '  number of parameters: %d' % num_params
-    print string.ljust('  layer output shapes:', 36),
-    print string.ljust('#params:', 10),
-    print 'output shape:'
+    print('  number of parameters: %d' % num_params)
+    print(string.ljust('  layer output shapes:', 36),)
+    print(string.ljust('#params:', 10),)
+    print('output shape:')
     for layer in all_layers:
         name = string.ljust(layer.__class__.__name__, 32)
         num_param = sum([np.prod(p.get_value().shape) for p in layer.get_params()])
         num_param = string.ljust(num_param.__str__(), 10)
-        print '    %s %s %s' % (name, num_param, layer.output_shape)
+        print('    %s %s %s' % (name, num_param, layer.output_shape))
 
     nn.layers.set_all_param_values(model.l_out, metadata['param_values'])
     return model

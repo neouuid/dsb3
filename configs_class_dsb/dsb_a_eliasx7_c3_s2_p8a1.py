@@ -59,8 +59,8 @@ batch_size = 4
 
 train_valid_ids = utils.load_pkl(pathfinder.VALIDATION_SPLIT_PATH)
 train_pids, valid_pids, test_pids = train_valid_ids['training'], train_valid_ids['validation'], train_valid_ids['test']
-print 'n train', len(train_pids)
-print 'n valid', len(valid_pids)
+print('n train', len(train_pids))
+print('n valid', len(valid_pids))
 
 train_data_iterator = data_iterators.DSBPatientsDataGenerator(data_path=pathfinder.DATA_PATH,
                                                               batch_size=batch_size,
@@ -251,14 +251,14 @@ def build_objective(model, deterministic=False, epsilon=1e-12):
 def build_updates(train_loss, model, learning_rate):
 
     final_layer=nn.layers.get_all_layers(model.l_out)[-3]
-    print 'trainable layer -3', final_layer.name
+    print('trainable layer -3', final_layer.name)
     param_final=final_layer.get_params(trainable=True)
     final_layer=nn.layers.get_all_layers(model.l_out)[-4]
-    print 'trainable layer -4', final_layer.name
+    print('trainable layer -4', final_layer.name)
     param_final.extend(final_layer.get_params(trainable=True))
     for lidx in range(-20,-4):
       layer=nn.layers.get_all_layers(model.l_out)[lidx]
-      print 'trainable layer',lidx, layer.name
+      print('trainable layer',lidx, layer.name)
       param_final.extend(layer.get_params(trainable=True))
 
     updates = nn.updates.adam(train_loss, param_final, learning_rate)

@@ -78,12 +78,12 @@ def test_dsb3d():
     #     'problem_patients/11616de262f844e6542d3c65d9238b6e.pkl')
 
     # candidates = candidates[:4]
-    # print candidates
-    # print '--------------'
+    # print(candidates)
+    # print('--------------')
 
     for k, p in enumerate(dsb_data_paths):
         pid = p.split('/')[-2]
-        print pid
+        print(pid)
         img, pixel_spacing = utils_lung.read_dicom_scan(p)
         lung_mask = lung_segmentation.segment_HU_scan_elias(img, pid=pid, plot=True)
 

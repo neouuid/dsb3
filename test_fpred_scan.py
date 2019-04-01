@@ -44,9 +44,9 @@ get_predictions_patch = theano.function([],
 
 data_iterator = config().data_iterator
 
-print
-print 'Data'
-print 'n samples: %d' % data_iterator.nsamples
+print()
+print('Data')
+print('n samples: %d' % data_iterator.nsamples)
 
 nblob2prob, nblob2label = {}, {}
 pid2candidates = defaultdict(list)

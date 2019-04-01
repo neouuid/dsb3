@@ -3,7 +3,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import os
 import numpy as np
-import cPickle as pickle
+import pickle
 import time
 import sys
 
@@ -27,15 +27,15 @@ for line in file:
 		training_idcs.append(last_chunk)
 
 
-print 'training errors'
-print training_errors
-print training_idcs
-print 'validation errors'
-print validation_errors
-print validation_idcs
+print('training errors')
+print(training_errors)
+print(training_idcs)
+print('validation errors')
+print(validation_errors)
+print(validation_idcs)
 
-print 'min training error', np.amin(np.array(training_errors)), 'at', np.argmin(np.array(training_errors))
-print 'min validation error', np.amin(np.array(validation_errors)), 'at', np.argmin(np.array(validation_errors))
+print('min training error', np.amin(np.array(training_errors)), 'at', np.argmin(np.array(training_errors)))
+print('min validation error', np.amin(np.array(validation_errors)), 'at', np.argmin(np.array(validation_errors)))
 
 plt.plot(training_errors, label='training errors')
 plt.plot(validation_errors, label='validation errors')

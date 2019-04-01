@@ -22,7 +22,7 @@ def plot_slice_3d_2(image3d, mask, axis, pid, img_dir=None, idx=None):
         if len(roi_idxs[0]) > 0:
             idx = (np.mean(roi_idxs[0]), np.mean(roi_idxs[1]), np.mean(roi_idxs[2]))
         else:
-            print 'No nodules'
+            print('No nodules')
             idx = np.array(image3d.shape) / 2
     else:
         idx = idx.astype(int)
@@ -62,7 +62,7 @@ def plot_slice_3d_3(input, mask, prediction, axis, pid, img_dir=None, idx=None):
                    int(np.mean(roi_idxs[1])),
                    int(np.mean(roi_idxs[2])))
         else:
-            print 'No nodules'
+            print('No nodules')
             idx = np.array(input.shape) / 2
     else:
         idx = idx.astype(int)
@@ -119,7 +119,7 @@ def plot_slice_3d_4(input, mask, prediction, lung_mask, axis, pid, img_dir=None,
                    int(np.mean(roi_idxs[1])),
                    int(np.mean(roi_idxs[2])))
         else:
-            print 'No nodules'
+            print('No nodules')
             idx = np.array(input.shape) / 2
     else:
         idx = idx.astype(int)
@@ -159,7 +159,7 @@ def plot_slice_3d_3_patch(input, mask, prediction, axis, pid, patch_size=64, img
         if len(roi_idxs[0]) > 0:
             idx = (np.mean(roi_idxs[0]), np.mean(roi_idxs[1]), np.mean(roi_idxs[2]))
         else:
-            print 'No nodules'
+            print('No nodules')
             idx = np.array(input.shape) / 2
     if axis == 0:  # sax
         sz, sy, sx = slice(idx[0], idx[0] + 1), slice(idx[1] - patch_size, idx[1] + patch_size), slice(
@@ -195,8 +195,8 @@ def plot_slice_3d_2_patch(ct_scan, mask, pid, img_dir=None, idx=None):
         #just plot in the middle of the cube
         in_sh = ct_scan.shape
         idx = [in_sh[0]/2,in_sh[1]/2,in_sh[2]/2]
-    print np.amin(ct_scan), np.amax(ct_scan)
-    print np.amin(mask), np.amax(mask)
+    print(np.amin(ct_scan), np.amax(ct_scan))
+    print(np.amin(mask), np.amax(mask))
 
 
     ax[0, 0].imshow(ct_scan[idx[0], :, :], cmap=plt.cm.gray)
@@ -252,7 +252,7 @@ def plot_2d_animation(input, mask, predictions):
     rgb_image[idxs] = mask[idxs]
 
     rgb_image = np.rollaxis(rgb_image, axis=0, start=4)
-    print rgb_image.shape
+    print(rgb_image.shape)
 
     def get_data_step(step):
         return rgb_image[step, :, :, :]
@@ -356,7 +356,7 @@ def plot_learning_curves(train_losses, valid_losses, expid, img_dir):
 
     if img_dir is not None:
         fig.savefig(img_dir + '/%s.png' % expid, bbox_inches='tight')
-        print 'Saved plot'
+        print('Saved plot')
     else:
         plt.show()
     fig.clf()

@@ -36,20 +36,20 @@ predictions_dir = utils.get_dir_path('model-predictions', pathfinder.METADATA_PA
 outputs_path = predictions_dir + '/' + expid
 utils.auto_make_dir(outputs_path)
 
-print 'Build model'
+print('Build model')
 model = config().build_model()
 all_layers = nn.layers.get_all_layers(model.l_out)
 all_params = nn.layers.get_all_params(model.l_out)
 num_params = nn.layers.count_params(model.l_out)
-print '  number of parameters: %d' % num_params
-print string.ljust('  layer output shapes:', 36),
-print string.ljust('#params:', 10),
-print 'output shape:'
+print('  number of parameters: %d' % num_params)
+print(string.ljust('  layer output shapes:', 36),)
+print(string.ljust('#params:', 10),)
+print('output shape:')
 for layer in all_layers:
     name = string.ljust(layer.__class__.__name__, 32)
     num_param = sum([np.prod(p.get_value().shape) for p in layer.get_params()])
     num_param = string.ljust(num_param.__str__(), 10)
-    print '    %s %s %s' % (name, num_param, layer.output_shape)
+    print('    %s %s %s' % (name, num_param, layer.output_shape))
 
 nn.layers.set_all_param_values(model.l_out, metadata['param_values'])
 
@@ -67,9 +67,9 @@ iter_get_predictions = theano.function([], [valid_loss, nn.layers.get_output(mod
                                        givens=givens_valid)
 valid_data_iterator = config().valid_data_iterator
 
-print
-print 'Data'
-print 'n validation: %d' % valid_data_iterator.nsamples
+print()
+print('Data')
+print('n validation: %d' % valid_data_iterator.nsamples)
 threshold = 0.2
 n_tp, n_tn, n_fp, n_fn = 0, 0, 0, 0
 n_pos = 0
@@ -97,12 +97,12 @@ for n, (x_chunk, y_chunk, id_chunk) in enumerate(buffering.buffered_gen_threaded
     else:
         n_neg += 1
 
-    print id_chunk, targets, p1, loss
+    print(id_chunk, targets, p1, loss)
 
-print 'Validation loss', np.mean(validation_losses)
-print 'TP', n_tp
-print 'TN', n_tn
-print 'FP', n_fp
-print 'FN', n_fn
-print 'n neg', n_neg
-print 'n pos', n_pos
+print('Validation loss', np.mean(validation_losses))
+print('TP', n_tp)
+print('TN', n_tn)
+print('FP', n_fp)
+print('FN', n_fn)
+print('n neg', n_neg)
+print('n pos', n_pos)

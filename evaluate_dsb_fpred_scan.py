@@ -41,11 +41,11 @@ for p in blob_files:
     blobs = np.asarray(sorted(blobs, key=lambda x: x[-1], reverse=True))
 
     img, pixel_spacing = utils_lung.read_dicom_scan(pathfinder.DATA_PATH + '/' + pid)
-    print pid
+    print(pid)
     for blob in blobs[:10]:
         patch_center = blob[:3]
         p1 = blob[-1]
-        print p1
+        print(p1)
         x, _ = data_transforms.transform_patch3d(data=img,
                                                  luna_annotations=None,
                                                  patch_center=patch_center,
@@ -57,4 +57,4 @@ for p in blob_files:
         plot_slice_3d_3(input=x, mask=x, prediction=x,
                         axis=0, pid='-'.join([str(pid), str(p1)]),
                         img_dir=outputs_img_path, idx=np.array(x[0, 0].shape) / 2)
-        # print 'saved'
+        # print('saved')

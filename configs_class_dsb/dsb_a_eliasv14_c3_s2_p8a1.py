@@ -60,8 +60,8 @@ batch_size = 4
 
 train_valid_ids = utils.load_pkl(pathfinder.VALIDATION_SPLIT_PATH)
 train_pids, valid_pids, test_pids = train_valid_ids['training'], train_valid_ids['validation'], train_valid_ids['test']
-print 'n train', len(train_pids)
-print 'n valid', len(valid_pids)
+print('n train', len(train_pids))
+print('n valid', len(valid_pids))
 
 train_data_iterator = data_iterators.DSBPatientsDataGenerator(data_path=pathfinder.DATA_PATH,
                                                               batch_size=batch_size,
@@ -186,14 +186,14 @@ def build_model():
                             pad='valid',
                             W=nn.init.Orthogonal(),
                             nonlinearity=nn.nonlinearities.very_leaky_rectify)
-    print 'l1', l.output_shape
+    print('l1', l.output_shape)
     l = inrn_v2_red(l)
-    print 'l2', l.output_shape
+    print('l2', l.output_shape)
     l = inrn_v2(l)
-    print 'l3', l.output_shape
+    print('l3', l.output_shape)
 
     l = inrn_v2_red(l)
-    print 'l4', l.output_shape
+    print('l4', l.output_shape)
     l = inrn_v2(l)
 
     l = inrn_v2_red(l)

@@ -1,11 +1,10 @@
 import platform
-import pwd
 import subprocess
 import time
 import numpy as np
 import glob
 import os
-import cPickle as pickle
+import pickle
 
 maxfloat = np.finfo(np.float32).max
 
@@ -13,7 +12,7 @@ maxfloat = np.finfo(np.float32).max
 def auto_make_dir(path):
     if not os.path.exists(path):
         os.makedirs(path)
-        print 'Created dir', path
+        print('Created dir', path)
 
 
 def find_model_metadata(metadata_dir, config_name):
@@ -22,14 +21,14 @@ def find_model_metadata(metadata_dir, config_name):
         raise ValueError('No metadata files for config %s' % config_name)
     elif len(metadata_paths) > 1:
         raise ValueError('Multiple metadata files for config %s' % config_name)
-    print 'Loaded model from', metadata_paths[0]
+    print('Loaded model from', metadata_paths[0])
     return metadata_paths[0]
 
 
 def get_train_valid_split(train_data_path):
     filename = 'valid_split.pkl'
     # if not os.path.isfile(filename):
-    #     print 'Making validation split'
+    #     print('Making validation split')
     #     create_validation_split.save_train_validation_ids(filename, train_data_path)
     return load_pkl(filename)
 
@@ -39,12 +38,8 @@ def check_data_paths(data_path):
         raise ValueError('wrong path to DICOM data')
 
 
-def get_dir_path(dir_name, root_dir, no_name=True):
-    if no_name:
-        username = ''
-    else:
-        username = pwd.getpwuid(os.getuid())[0]
-    dir_path = root_dir + '/' + dir_name + '/%s' % username
+def get_dir_path(dir_name, root_dir):
+    dir_path = root_dir + '/' + dir_name
     if not os.path.isdir(dir_path):
         os.makedirs(dir_path)
     return dir_path
@@ -98,7 +93,7 @@ def load_np(path):
 
 def copy(from_folder, to_folder):
     command = "cp -r %s %s/." % (from_folder, to_folder)
-    print command
+    print(command)
     os.system(command)
 
 

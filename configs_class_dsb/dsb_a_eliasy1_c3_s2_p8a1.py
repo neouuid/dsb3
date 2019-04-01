@@ -59,8 +59,8 @@ batch_size = 4
 
 train_valid_ids = utils.load_pkl(pathfinder.VALIDATION_SPLIT_PATH)
 train_pids, valid_pids, test_pids = train_valid_ids['training'], train_valid_ids['validation'], train_valid_ids['test']
-print 'n train', len(train_pids)
-print 'n valid', len(valid_pids)
+print('n train', len(train_pids))
+print('n valid', len(valid_pids))
 
 train_data_iterator = data_iterators.DSBPatientsDataGenerator(data_path=pathfinder.DATA_PATH,
                                                               batch_size=batch_size,
@@ -218,7 +218,7 @@ def build_model():
 
 
     l_in_rshp = nn.layers.ReshapeLayer(l_in, (-1, 1,) + p_transform['patch_size'])
-    print l_in_patch_locs.output_shape
+    print(l_in_patch_locs.output_shape)
     l_in_patch_locs_rshp = nn.layers.ReshapeLayer(l_in_patch_locs, (-1, 3))
 
     penultimate_layer = load_pretrained_model(l_in_rshp)
@@ -227,8 +227,8 @@ def build_model():
 
     l = dense(l, 256, name='dense_final1')
 
-    print l.output_shape
-    print l_in_patch_locs_rshp.output_shape
+    print(l.output_shape)
+    print(l_in_patch_locs_rshp.output_shape)
 
     l = nn.layers.ConcatLayer([l_in_patch_locs_rshp, l], axis=1 , name='concat_feat_locs')
 
@@ -256,15 +256,15 @@ def build_objective(model, deterministic=False, epsilon=1e-12):
 
 def build_updates(train_loss, model, learning_rate):
     final_layer=nn.layers.get_all_layers(model.l_out)[-3]
-    print 'trainable layer -3', final_layer.name
+    print('trainable layer -3', final_layer.name)
     param_final=final_layer.get_params(trainable=True)
 
     final_layer=nn.layers.get_all_layers(model.l_out)[-4]
-    print 'trainable layer -4', final_layer.name
+    print('trainable layer -4', final_layer.name)
     param_final.extend(final_layer.get_params(trainable=True))
 
     final_layer=nn.layers.get_all_layers(model.l_out)[-7]
-    print 'trainable layer -7', final_layer.name
+    print('trainable layer -7', final_layer.name)
     param_final.extend(final_layer.get_params(trainable=True))
 
     updates = nn.updates.adam(train_loss, param_final, learning_rate)

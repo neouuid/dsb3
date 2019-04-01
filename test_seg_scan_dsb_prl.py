@@ -14,20 +14,20 @@ import buffering
 
 
 def extract_candidates(predictions_scan, tf_matrix, pid, outputs_path):
-    print 'computing blobs'
+    print('computing blobs')
     start_time = time.time()
     blobs = blobs_detection.blob_dog(predictions_scan[0, 0], min_sigma=1, max_sigma=15, threshold=0.1)
-    print 'blobs computation time:', (time.time() - start_time) / 60.
-    print 'n blobs detected:', blobs.shape[0]
+    print('blobs computation time:', (time.time() - start_time) / 60.)
+    print('n blobs detected:', blobs.shape[0])
 
     blobs_original_voxel_coords = []
-    for j in xrange(blobs.shape[0]):
+    for j in range(blobs.shape[0]):
         blob_j = np.append(blobs[j, :3], [1])
         blob_j_original = tf_matrix.dot(blob_j)
         blobs_original_voxel_coords.append(blob_j_original)
 
     blobs = np.asarray(blobs_original_voxel_coords)
-    print blobs.shape
+    print(blobs.shape)
     utils.save_pkl(blobs, outputs_path + '/%s.pkl' % pid)
 
 
@@ -75,21 +75,21 @@ get_predictions_patch = theano.function([],
 
 data_iterator = config().data_iterators[data_iterator_part]
 
-print
-print 'Data'
-print 'n samples: %d' % data_iterator.nsamples
+print()
+print('Data')
+print('n samples: %d' % data_iterator.nsamples)
 
 start_time = time.time()
 for n, (x, lung_mask, tf_matrix, pid) in enumerate(
         buffering.buffered_gen_threaded(data_iterator.generate(), buffer_size=2)):
-    print '-------------------------------------'
-    print n, pid
+    print('-------------------------------------')
+    print(n, pid)
 
     predictions_scan = np.zeros((1, 1, n_windows * stride, n_windows * stride, n_windows * stride))
 
-    for iz in xrange(n_windows):
-        for iy in xrange(n_windows):
-            for ix in xrange(n_windows):
+    for iz in range(n_windows):
+        for iy in range(n_windows):
+            for ix in range(n_windows):
                 start_time_patch = time.time()
                 x_shared.set_value(x[:, :, iz * stride:(iz * stride) + window_size,
                                    iy * stride:(iy * stride) + window_size,
@@ -109,8 +109,8 @@ for n, (x, lung_mask, tf_matrix, pid) in enumerate(
     if lung_mask is not None:
         predictions_scan *= lung_mask
 
-    print 'saved plot'
-    print 'time since start:', (time.time() - start_time) / 60.
+    print('saved plot')
+    print('time since start:', (time.time() - start_time) / 60.)
 
     jobs = [job for job in jobs if job.is_alive]
     if len(jobs) >= 3:

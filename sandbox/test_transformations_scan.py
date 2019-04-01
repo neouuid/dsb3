@@ -21,8 +21,8 @@ def test1():
 
     luna_data_paths = utils_lung.get_patient_data_paths(pathfinder.LUNA_DATA_PATH)
     luna_data_paths = [p for p in luna_data_paths if '.mhd' in p]
-    print len(luna_data_paths)
-    print id2zyxd.keys()
+    print(len(luna_data_paths))
+    print(id2zyxd.keys())
 
     for k, p in enumerate(luna_data_paths):
         img, origin, pixel_spacing = utils_lung.read_mhd(p)
@@ -70,7 +70,7 @@ def test_luna3d():
     for k, p in enumerate(luna_data_paths):
         img, origin, pixel_spacing = utils_lung.read_mhd(p)
         id = os.path.basename(p).replace('.mhd', '')
-        print id
+        print(id)
 
         annotations = id2zyxd[id]
 
@@ -80,7 +80,7 @@ def test_luna3d():
                                                                      luna_origin=origin)
 
         mask[mask == 0.] = 0.1
-        print annotations_out
+        print(annotations_out)
         for zyxd in annotations_out:
             plot_slice_3d_2(img_out, mask, 0, id, idx=zyxd)
             plot_slice_3d_2(img_out, mask, 1, id, idx=zyxd)
@@ -100,7 +100,7 @@ def count_proportion():
         img, origin, pixel_spacing = utils_lung.read_mhd(p)
         img = data_transforms.hu2normHU(img)
         id = os.path.basename(p).replace('.mhd', '')
-        print id
+        print(id)
 
         annotations = id2zyxd[id]
 
@@ -116,8 +116,8 @@ def count_proportion():
         n_white += np.sum(mask)
         n_black += mask.shape[0] * mask.shape[1] * mask.shape[2] - np.sum(mask)
 
-        print 'white', n_white
-        print 'black', n_black
+        print('white', n_white)
+        print('black', n_black)
 
 
 def test_dsb():
@@ -126,7 +126,7 @@ def test_dsb():
     utils.auto_make_dir(image_dir)
 
     patient_data_paths = utils_lung.get_patient_data_paths(pathfinder.DATA_PATH)
-    print len(patient_data_paths)
+    print(len(patient_data_paths))
     patient_data_paths = [pathfinder.DATA_PATH + '/01de8323fa065a8963533c4a86f2f6c1']
 
     for k, p in enumerate(patient_data_paths):
@@ -137,7 +137,7 @@ def test_dsb():
         # sid2position = utils_lung.slice_location_finder(sid2metadata)
         #
         # jonas_slicethick = []
-        # for i in xrange(len(sids_sorted_jonas) - 1):
+        # for i in range(len(sids_sorted_jonas) - 1):
         #     s = np.abs(sid2position[sids_sorted_jonas[i + 1]] - sid2position[sids_sorted_jonas[i]])
         #     jonas_slicethick.append(s)
         #
@@ -149,9 +149,9 @@ def test_dsb():
 
         img, pixel_spacing = utils_lung.read_dicom_scan(p)
         mask = lung_segmentation.segment_HU_scan_ira(img)
-        print pid
-        print pixel_spacing
-        print '===================================='
+        print(pid)
+        print(pixel_spacing)
+        print('====================================')
 
         img_out, transform_matrix, mask_out = data_transforms.transform_scan3d(img,
                                                                                pixel_spacing=pixel_spacing,
@@ -159,7 +159,7 @@ def test_dsb():
                                                                                p_transform_augment=None,
                                                                                lung_mask=mask)
 
-        for i in xrange(100, img_out.shape[0], 5):
+        for i in range(100, img_out.shape[0], 5):
             plot_slice_3d_2(img_out, mask_out, 0, str(pid) + str(i), idx=np.array([i, 200, 200]))
 
         plot_slice_3d_2(img_out, mask_out, 0, pid, idx=np.array(img_out.shape) / 2)

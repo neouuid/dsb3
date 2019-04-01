@@ -12,7 +12,7 @@ if this_part == all_parts:
 else:
     x1 = x[part_lenght * (this_part - 1): part_lenght * this_part]
 
-print x1
+print(x1)
 
 part_out_of = (2, 3)
 this_part = part_out_of[0]
@@ -24,7 +24,7 @@ if this_part == all_parts:
 else:
     x1 = x[part_lenght * (this_part - 1): part_lenght * this_part]
 
-print x1
+print(x1)
 
 part_out_of = (3, 3)
 this_part = part_out_of[0]
@@ -36,7 +36,7 @@ if this_part == all_parts:
 else:
     x1 = x[part_lenght * (this_part - 1): part_lenght * this_part]
 
-print x1
+print(x1)
 
 part_out_of = (4, 3)
 this_part = part_out_of[0]
@@ -48,4 +48,4 @@ if this_part == all_parts:
 else:
     x1 = x[part_lenght * (this_part - 1): part_lenght * this_part]
 
-print x1
+print(x1)

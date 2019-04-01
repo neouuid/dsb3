@@ -31,16 +31,16 @@ def test_luna3d():
         '/mnt/sda3/data/kaggle-lung/luna_test_patient/1.3.6.1.4.1.14519.5.2.1.6279.6001.877026508860018521147620598474.pkl')
 
     candidates = candidates[:4]
-    print candidates
-    print '--------------'
-    print id2zyxd['1.3.6.1.4.1.14519.5.2.1.6279.6001.877026508860018521147620598474']
+    print(candidates)
+    print('--------------')
+    print(id2zyxd['1.3.6.1.4.1.14519.5.2.1.6279.6001.877026508860018521147620598474'])
 
     for k, p in enumerate(luna_data_paths):
         id = os.path.basename(p).replace('.mhd', '')
-        print id
+        print(id)
         img, origin, pixel_spacing = utils_lung.read_mhd(p)
         lung_mask = lung_segmentation.segment_HU_scan_ira(img)
-        print np.min(lung_mask), np.max(lung_mask)
+        print(np.min(lung_mask), np.max(lung_mask))
         x, annotations_tf, tf_matrix, lung_mask_out = data_transforms.transform_scan3d(data=img,
                                                                                        pixel_spacing=pixel_spacing,
                                                                                        p_transform=p_transform,
@@ -50,7 +50,7 @@ def test_luna3d():
                                                                                        lung_mask=lung_mask,
                                                                                        world_coord_system=False)
 
-        print np.min(lung_mask_out), np.max(lung_mask_out)
+        print(np.min(lung_mask_out), np.max(lung_mask_out))
 
         plot_slice_3d_2(x, lung_mask_out, 0, id)
         plot_slice_3d_2(x, lung_mask_out, 1, id)
@@ -61,7 +61,7 @@ def test_luna3d():
         #     plot_slice_3d_2(x, lung_mask_out, 1, id, idx=zyxd)
         #     plot_slice_3d_2(x, lung_mask_out, 2, id, idx=zyxd)
 
-        for i in xrange(136, x.shape[1]):
+        for i in range(136, x.shape[1]):
             plot_slice_3d_2(x, lung_mask_out, 1, str(id) + str(i), idx=np.array([200, i, 200]))
 
             # plot_slice_3d_2(x, lung_mask_out, 0, id, idx=np.array(x.shape) / 2)
@@ -81,7 +81,7 @@ def test_luna3d_2():
 
     for k, p in enumerate(luna_data_paths):
         id = os.path.basename(p).replace('.mhd', '')
-        print id
+        print(id)
         img, origin, pixel_spacing = utils_lung.read_mhd(p)
         lung_mask = lung_segmentation.segment_HU_scan(img)
         annotations = id2zyxd[id]
@@ -101,7 +101,7 @@ def test_luna3d_2():
             plot_slice_3d_3(x, lung_mask_out, y, 1, id, idx=zyxd)
             plot_slice_3d_3(x, lung_mask_out, y, 2, id, idx=zyxd)
 
-            # for i in xrange(136, x.shape[1]):
+            # for i in range(136, x.shape[1]):
             #     plot_slice_3d_2(x, lung_mask_out, 1, str(id) + str(i), idx=np.array([200, i, 200]))
             #
             # plot_slice_3d_2(x, lung_mask_out, 0, id, idx=np.array(x.shape) / 2)

@@ -9,8 +9,8 @@ VALIDATION_SET_SIZE = 0.2
 
 def read_split(path):
     d = utils.load_pkl(path)
-    print d['valid']
-    # print d['train']
+    print(d['valid'])
+    # print(d['train'])
 
 
 def make_luna_validation_split():

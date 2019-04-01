@@ -60,8 +60,8 @@ batch_size = 2
 
 train_valid_ids = utils.load_pkl(pathfinder.VALIDATION_SPLIT_PATH)
 train_pids, valid_pids = train_valid_ids['training'], train_valid_ids['validation']
-print 'n train', len(train_pids)
-print 'n valid', len(valid_pids)
+print('n train', len(train_pids))
+print('n valid', len(valid_pids))
 
 train_data_iterator = data_iterators.DSBPatientsDataGenerator(data_path=pathfinder.DATA_PATH,
                                                               batch_size=batch_size,

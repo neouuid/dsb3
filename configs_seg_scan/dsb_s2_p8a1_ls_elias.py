@@ -42,7 +42,7 @@ def data_prep_function(data, pixel_spacing, p_transform=p_transform):
     return x, lung_mask_out, tf_matrix
 
 
-print 'pathfinder.DATA_PATH', pathfinder.DATA_PATH
+print('pathfinder.DATA_PATH', pathfinder.DATA_PATH)
 data_iterator = data_iterators.DSBScanLungMaskDataGenerator(data_path=pathfinder.DATA_PATH,
                                                             transform_params=p_transform,
                                                             data_prep_fun=data_prep_function,
@@ -54,19 +54,19 @@ def build_model():
     metadata_path = utils.find_model_metadata(metadata_dir, patch_config.__name__.split('.')[-1])
     metadata = utils.load_pkl(metadata_path)
 
-    print 'Build model'
+    print('Build model')
     model = patch_config.build_model(patch_size=(window_size, window_size, window_size))
     all_layers = nn.layers.get_all_layers(model.l_out)
     num_params = nn.layers.count_params(model.l_out)
-    print '  number of parameters: %d' % num_params
-    print string.ljust('  layer output shapes:', 36),
-    print string.ljust('#params:', 10),
-    print 'output shape:'
+    print('  number of parameters: %d' % num_params)
+    print(string.ljust('  layer output shapes:', 36),)
+    print(string.ljust('#params:', 10),)
+    print('output shape:')
     for layer in all_layers:
         name = string.ljust(layer.__class__.__name__, 32)
         num_param = sum([np.prod(p.get_value().shape) for p in layer.get_params()])
         num_param = string.ljust(num_param.__str__(), 10)
-        print '    %s %s %s' % (name, num_param, layer.output_shape)
+        print('    %s %s %s' % (name, num_param, layer.output_shape))
 
     nn.layers.set_all_param_values(model.l_out, metadata['param_values'])
     return model

@@ -229,7 +229,7 @@ def build_model():
 
         final_layers.append(l_fin)
 
-    #print 'for debug purposes: unit_ptr', unit_ptr
+    #print('for debug purposes: unit_ptr', unit_ptr)
 
 
     l_out = nn.layers.ConcatLayer(final_layers, name = 'final_concat_layer')
@@ -268,7 +268,7 @@ def build_objective(model, deterministic=False, epsilon=1e-12):
         sum_of_objectives += T.mean(enable_targets[:,obj_idx] * v_obj)
         unit_ptr = unit_ptr+n_classes
 
-    #print 'for debug purposes: unit_ptr', unit_ptr
+    #print('for debug purposes: unit_ptr', unit_ptr)
 
     return sum_of_objectives
 

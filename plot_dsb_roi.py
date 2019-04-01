@@ -1,8 +1,7 @@
-import cPickle as pickle
+import pickle
 import string
 import sys
 import time
-from itertools import izip
 import lasagne as nn
 import numpy as np
 import theano
@@ -32,20 +31,20 @@ valid_data_iterator = config().valid_data_iterator
 test_data_iterator = config().test_data_iterator
 
 
-print
-print 'Data'
-print 'n train: %d' % train_data_iterator.nsamples
-print 'n validation: %d' % valid_data_iterator.nsamples
-print 'n chunks per epoch', config().nchunks_per_epoch
+print()
+print('Data')
+print('n train: %d' % train_data_iterator.nsamples)
+print('n validation: %d' % valid_data_iterator.nsamples)
+print('n chunks per epoch', config().nchunks_per_epoch)
 
 # use buffering.buffered_gen_threaded()
 for (x_chunk_train, y_chunk_train, id_train) in test_data_iterator.generate():
-    print id_train
-    print x_chunk_train.shape
+    print(id_train)
+    print(x_chunk_train.shape)
 
-    for i in xrange(x_chunk_train.shape[0]):
+    for i in range(x_chunk_train.shape[0]):
         pid = id_train[i]
-        for j in xrange(x_chunk_train.shape[1]):
+        for j in range(x_chunk_train.shape[1]):
             utils_plots.plot_slice_3d_3axis(input=x_chunk_train[i, j, 0],
                                             pid='-'.join([str(pid), str(j)]),
                                             img_dir=outputs_path,

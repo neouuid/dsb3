@@ -33,26 +33,26 @@ sys.stderr = sys.stdout
 
 data_iterator = config().train_data_iterator
 
-print
-print 'Data'
-print 'n samples: %d' % data_iterator.nsamples
+print()
+print('Data')
+print('n samples: %d' % data_iterator.nsamples)
 
 start_time = time.time()
 n_pos = 0
 tp = 0
 for n, (ct, lung_mask, annotations, tf_matrix, pid) in enumerate(data_iterator.generate()):
-    print '-------------------------------------'
-    print n, pid
+    print('-------------------------------------')
+    print(n, pid)
     n_pos += annotations.shape[0]
     n_pid_tp = 0
     annotations = np.int32(annotations)
-    for i in xrange(annotations.shape[0]):
+    for i in range(annotations.shape[0]):
         if lung_mask[0, 0, annotations[i, 0], annotations[i, 1], annotations[i, 2]] == 1:
             n_pid_tp += 1
     tp += n_pid_tp
-    print annotations.shape[0], n_pid_tp
+    print(annotations.shape[0], n_pid_tp)
     if annotations.shape[0] > n_pid_tp:
-        print '----HERE-----!!!!!'
+        print('----HERE-----!!!!!')
 
-print 'total', n_pos
-print 'detected', tp
+print('total', n_pos)
+print('detected', tp)

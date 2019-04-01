@@ -9,7 +9,7 @@ import utils_plots
 
 def segment_HU_scan(x):
     mask = np.asarray(x < -350, dtype='int32')
-    for iz in xrange(mask.shape[0]):
+    for iz in range(mask.shape[0]):
         skimage.segmentation.clear_border(mask[iz], in_place=True)
         skimage.morphology.binary_opening(mask[iz], selem=skimage.morphology.disk(5), out=mask[iz])
         if np.sum(mask[iz]):
@@ -24,7 +24,7 @@ def segment_HU_scan_frederic(x, threshold=-350):
     selem2 = skimage.morphology.disk(2)
     selem3 = skimage.morphology.disk(13)
 
-    for iz in xrange(mask.shape[0]):
+    for iz in range(mask.shape[0]):
         # fill the body part
         filled = scipy.ndimage.binary_fill_holes(binary_part[iz])  # fill body
         filled_borders_mask = skimage.morphology.binary_erosion(filled, selem1)
@@ -45,7 +45,7 @@ def segment_HU_scan_elias(x, threshold=-350, pid='test', plot=False, verbose=Fal
     selem2 = skimage.morphology.disk(2)
     selem3 = skimage.morphology.disk(13)
 
-    for iz in xrange(mask.shape[0]):
+    for iz in range(mask.shape[0]):
         # fill the body part
         filled = scipy.ndimage.binary_fill_holes(binary_part[iz])  # fill body
         filled_borders_mask = skimage.morphology.binary_erosion(filled, selem1)
@@ -63,17 +63,17 @@ def segment_HU_scan_elias(x, threshold=-350, pid='test', plot=False, verbose=Fal
         overlap = mask[iz] * mask[iz+1] 
         label_image = skimage.measure.label(mask[iz+1])
         if verbose: 
-            print 'iz', iz
+            print('iz', iz)
         for idx, region in enumerate(skimage.measure.regionprops(label_image)):
             total_overlap = 0
             for coordinates in region.coords:                
                 total_overlap += overlap[coordinates[0], coordinates[1]]
             ratio_overlap = 1.*total_overlap/region.area
             if verbose:
-                print 'region', idx, ', t_overlap', total_overlap, ', r_overlap ', ratio_overlap, ', area ', region.area, ', center', np.round(region.centroid)
+                print('region', idx, ', t_overlap', total_overlap, ', r_overlap ', ratio_overlap, ', area ', region.area, ', center', np.round(region.centroid))
             if total_overlap < overlap_treshold or ratio_overlap < ratio_overlap_treshold:
                 if verbose:
-                    print 'region', idx, 'in slice z=', iz-1, 'has a low overlap (', total_overlap, ratio_overlap, ') and will be discarded'
+                    print('region', idx, 'in slice z=', iz-1, 'has a low overlap (', total_overlap, ratio_overlap, ') and will be discarded')
                 for coordinates in region.coords: 
                     mask[iz+1, coordinates[0], coordinates[1]] = 0
 
@@ -82,23 +82,23 @@ def segment_HU_scan_elias(x, threshold=-350, pid='test', plot=False, verbose=Fal
         overlap = mask[iz] * mask[iz-1] 
         label_image = skimage.measure.label(mask[iz-1])
         if verbose: 
-            print 'iz', iz
+            print('iz', iz)
         for idx, region in enumerate(skimage.measure.regionprops(label_image)):
             total_overlap = 0
             for coordinates in region.coords:                
                 total_overlap += overlap[coordinates[0], coordinates[1]]
             ratio_overlap = 1.*total_overlap/region.area
             if verbose: 
-                print 'region', idx, ', t_overlap', total_overlap, ', r_overlap ', ratio_overlap, ', area ', region.area, ', center', np.round(region.centroid)
+                print('region', idx, ', t_overlap', total_overlap, ', r_overlap ', ratio_overlap, ', area ', region.area, ', center', np.round(region.centroid))
             if total_overlap < overlap_treshold or ratio_overlap < ratio_overlap_treshold:
                 if verbose: 
-                    print 'region', idx, 'in slice z=', iz-1, 'has a low overlap (', total_overlap, ratio_overlap, ') and will be discarded'
+                    print('region', idx, 'in slice z=', iz-1, 'has a low overlap (', total_overlap, ratio_overlap, ') and will be discarded')
                 for coordinates in region.coords: 
                     mask[iz-1, coordinates[0], coordinates[1]] = 0
 
 
     #erode out the blood vessels and the borders of the lung for a cleaner mask
-    for iz in xrange(mask.shape[0]):
+    for iz in range(mask.shape[0]):
         mask[iz] = skimage.morphology.binary_dilation(mask[iz], selem3)
         #mask[iz] = scipy.ndimage.binary_fill_holes(mask[iz])
 
@@ -112,7 +112,7 @@ def segment_HU_scan_elias(x, threshold=-350, pid='test', plot=False, verbose=Fal
 def segment_HU_scan_ira(x, threshold=-350, min_area=300):
     mask = np.asarray(x < threshold, dtype='int8')
 
-    for zi in xrange(mask.shape[0]):
+    for zi in range(mask.shape[0]):
         skimage.segmentation.clear_border(mask[zi, :, :], in_place=True)
 
     # noise reduction

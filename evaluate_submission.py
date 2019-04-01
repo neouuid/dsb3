@@ -59,4 +59,4 @@ if __name__ == '__main__':
     # submission_path = sys.argv[1]
     submission_path = '/home/user/Downloads/submission_0.55555.csv'
     loss = leaderboard_performance(submission_path)
-    print loss
+    print(loss)

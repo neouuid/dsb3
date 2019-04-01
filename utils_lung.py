@@ -4,7 +4,7 @@ import numpy as np
 import csv
 import os
 from collections import defaultdict
-import cPickle as pickle
+import pickle
 import glob
 import utils
 
@@ -101,7 +101,7 @@ def read_dicom_scan(patient_data_path):
     try:
         assert np.all((z_pixel_spacing - z_pixel_spacing[0]) < 0.01)
     except:
-        print 'This patient has multiple series, we will remove one'
+        print('This patient has multiple series, we will remove one')
         sids_sorted_2 = []
         for s1, s2 in zip(sids_sorted[::2], sids_sorted[1::2]):
             if sid2metadata[s1]["InstanceNumber"] > sid2metadata[s2]["InstanceNumber"]:
@@ -299,7 +299,7 @@ def filter_close_neighbors(candidates, min_dist=16):
                 dist = np.sum(delta**2)**(1./2)
                 if dist<min_dist:
                     no_pairs += 1
-                    print 'Warning: there is a pair nodules close together',  can1[:3], can2[:3]
+                    print('Warning: there is a pair nodules close together',  can1[:3], can2[:3])
                     found_close_candidate = True
                     if can1[4]>can2[4]:
                         swap_candidate = can2
@@ -309,7 +309,7 @@ def filter_close_neighbors(candidates, min_dist=16):
         elif swap_candidate:
             candidates_wo_dupes.remove(swap_candidate)
             candidates_wo_dupes.add(tuple(can1))
-    print 'n candidates filtered out', no_pairs
+    print('n candidates filtered out', no_pairs)
     return candidates_wo_dupes
 
 def dice_index(predictions, targets, epsilon=1e-12):

@@ -31,20 +31,20 @@ predictions_dir = utils.get_dir_path('model-predictions', pathfinder.METADATA_PA
 outputs_path = predictions_dir + '/' + expid
 utils.auto_make_dir(outputs_path)
 
-print 'Build model'
+print('Build model')
 model = config().build_model()
 all_layers = nn.layers.get_all_layers(model.l_out)
 all_params = nn.layers.get_all_params(model.l_out)
 num_params = nn.layers.count_params(model.l_out)
-print '  number of parameters: %d' % num_params
-print string.ljust('  layer output shapes:', 36),
-print string.ljust('#params:', 10),
-print 'output shape:'
+print('  number of parameters: %d' % num_params)
+print(string.ljust('  layer output shapes:', 36),)
+print(string.ljust('#params:', 10),)
+print('output shape:')
 for layer in all_layers:
     name = string.ljust(layer.__class__.__name__, 32)
     num_param = sum([np.prod(p.get_value().shape) for p in layer.get_params()])
     num_param = string.ljust(num_param.__str__(), 10)
-    print '    %s %s %s' % (name, num_param, layer.output_shape)
+    print('    %s %s %s' % (name, num_param, layer.output_shape))
 
 nn.layers.set_all_param_values(model.l_out, metadata['param_values'])
 
@@ -61,9 +61,9 @@ iter_get_mu = theano.function([], nn.layers.get_output(model.l_mu), givens=given
 # valid_data_iterator = config().valid_data_iterator
 valid_data_iterator = config().train_data_iterator
 
-print
-print 'Data'
-print 'n validation: %d' % valid_data_iterator.nsamples
+print()
+print('Data')
+print('n validation: %d' % valid_data_iterator.nsamples)
 
 valid_losses_dice = []
 valid_losses_ce = []
@@ -74,8 +74,8 @@ for n, (x_chunk, y_chunk, id_chunk) in enumerate(buffering.buffered_gen_threaded
     targets = y_chunk
     inputs = x_chunk
     predictions = iter_get_predictions()
-    print 'targets', targets
-    print 'predictions', iter_get_mu()
+    print('targets', targets)
+    print('predictions', iter_get_mu())
 
     # targets = data_transforms.make_3d_mask_from_annotations(inputs[0, 0].shape, targets, shape='sphere')
 
@@ -84,10 +84,10 @@ for n, (x_chunk, y_chunk, id_chunk) in enumerate(buffering.buffered_gen_threaded
     # x = predictions[0, 2, :]
     # pp = z[:, None, None] * y[None, :, None] * x[None, None, :]
     #
-    # for k in xrange(predictions.shape[0]):
+    # for k in range(predictions.shape[0]):
     #     plot_slice_3d_3(input=inputs[k, 0], mask=targets, prediction=pp,
     #                     axis=0, pid='-'.join([str(n), str(k), str(id_chunk[k])]),
     #                     img_dir=outputs_path)
 
-print 'Dice index validation loss', np.mean(valid_losses_dice)
-print 'CE validation loss', np.mean(valid_losses_ce)
+print('Dice index validation loss', np.mean(valid_losses_dice))
+print('CE validation loss', np.mean(valid_losses_ce))

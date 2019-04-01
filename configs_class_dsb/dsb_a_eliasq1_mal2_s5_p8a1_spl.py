@@ -76,8 +76,8 @@ test_pids = d_pids['test_stage2']
 
 train_valid_ids = utils.load_pkl(pathfinder.FINAL_SPLIT_PATH)
 train_pids, valid_pids = train_valid_ids['train'], train_valid_ids['test']
-print 'n train', len(train_pids)
-print 'n valid', len(valid_pids)
+print('n train', len(train_pids))
+print('n valid', len(valid_pids))
 
 id2label = utils_lung.read_labels(pathfinder.LABELS_PATH)
 id2label_test = utils_lung.read_test_labels(pathfinder.TEST_LABELS_PATH)

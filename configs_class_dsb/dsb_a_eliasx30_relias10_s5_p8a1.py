@@ -85,18 +85,18 @@ def logodds2p(lo):
 def candidates_prep_function(all_candidates):
     candidates_w_svalue = []
     for candidate in all_candidates:
-        # print 'candidate', candidate
+        # print('candidate', candidate)
         feature_vector = candidate[4:]
         d_feat = get_feature_dict(feature_vector)
-        # print d_feat
+        # print(d_feat)
         sorting_value = d_feat['malignancy']/5
         
         can_w_svalue = np.concatenate((candidate[:3], [sorting_value]))  
-        # print can_w_svalue
+        # print(can_w_svalue)
         candidates_w_svalue.append(can_w_svalue)
 
     a = np.asarray(sorted(candidates_w_svalue, key=lambda x: x[-1], reverse=True))
-    # print a[:10]
+    # print(a[:10])
     return a
 
 
@@ -111,9 +111,9 @@ batch_size = 1
 
 train_valid_ids = utils.load_pkl(pathfinder.VALIDATION_SPLIT_PATH)
 train_pids, valid_pids, test_pids = train_valid_ids['training'], train_valid_ids['validation'], train_valid_ids['test']
-print 'n train', len(train_pids)
-print 'n valid', len(valid_pids)
-print 'n test', len(test_pids)
+print('n train', len(train_pids))
+print('n valid', len(valid_pids))
+print('n test', len(test_pids))
 
 train_data_iterator = data_iterators.DSBPatientsDataGenerator(data_path=pathfinder.DATA_PATH,
                                                               batch_size=batch_size,
@@ -281,7 +281,7 @@ def load_pretrained_model(l_in):
     nn.layers.set_all_param_values(l_out, metadata['param_values'])
 
     features = nn.layers.get_all_layers(l_out)[(-2-len(final_layers))]
-    print 'features layer', features.name
+    print('features layer', features.name)
 
     return features
 

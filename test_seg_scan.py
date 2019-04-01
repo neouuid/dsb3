@@ -15,12 +15,12 @@ import buffering
 
 
 def extract_candidates(predictions_scan, annotations, tf_matrix, pid, outputs_path):
-    print 'computing blobs'
+    print('computing blobs')
     start_time = time.time()
     blobs = blobs_detection.blob_dog(predictions_scan[0, 0], min_sigma=1, max_sigma=15, threshold=0.1)
-    print 'blobs computation time:', (time.time() - start_time) / 60.
+    print('blobs computation time:', (time.time() - start_time) / 60.)
 
-    print 'n_blobs detected', len(blobs)
+    print('n_blobs detected', len(blobs))
     correct_blobs_idxs = []
     for zyxd in annotations:
         r = zyxd[-1] / 2.
@@ -28,22 +28,22 @@ def extract_candidates(predictions_scan, annotations, tf_matrix, pid, outputs_pa
                      + (zyxd[1] - blobs[:, 1]) ** 2
                      + (zyxd[2] - blobs[:, 2]) ** 2)
         blob_idx = np.argmin(distance2)
-        print 'node', zyxd
-        print 'closest blob', blobs[blob_idx]
+        print('node', zyxd)
+        print('closest blob', blobs[blob_idx])
         if distance2[blob_idx] <= r ** 2:
             correct_blobs_idxs.append(blob_idx)
         else:
-            print 'not detected !!!'
+            print('not detected !!!')
 
     # we will save blobs the the voxel space of the original image
     # blobs that are true detections will have blobs[-1] = 1 else 0
     blobs_original_voxel_coords = []
-    for j in xrange(blobs.shape[0]):
+    for j in range(blobs.shape[0]):
         blob_j = np.append(blobs[j, :3], [1])
         blob_j_original = tf_matrix.dot(blob_j)
         blob_j_original[-1] = 1 if j in correct_blobs_idxs else 0
         if j in correct_blobs_idxs:
-            print 'blob in original', blob_j_original
+            print('blob in original', blob_j_original)
         blobs_original_voxel_coords.append(blob_j_original)
 
     blobs = np.asarray(blobs_original_voxel_coords)
@@ -91,21 +91,21 @@ get_predictions_patch = theano.function([],
 
 valid_data_iterator = config().valid_data_iterator
 
-print
-print 'Data'
-print 'n samples: %d' % valid_data_iterator.nsamples
+print()
+print('Data')
+print('n samples: %d' % valid_data_iterator.nsamples)
 
 start_time = time.time()
 for n, (x, y, lung_mask, annotations, tf_matrix, pid) in enumerate(
         buffering.buffered_gen_threaded(valid_data_iterator.generate(), buffer_size=2)):
-    print '-------------------------------------'
-    print n, pid
+    print('-------------------------------------')
+    print(n, pid)
 
     predictions_scan = np.zeros((1, 1, n_windows * stride, n_windows * stride, n_windows * stride))
 
-    for iz in xrange(n_windows):
-        for iy in xrange(n_windows):
-            for ix in xrange(n_windows):
+    for iz in range(n_windows):
+        for iy in range(n_windows):
+            for ix in range(n_windows):
                 start_time_patch = time.time()
                 x_shared.set_value(x[:, :, iz * stride:(iz * stride) + window_size,
                                    iy * stride:(iy * stride) + window_size,
@@ -130,8 +130,8 @@ for n, (x, y, lung_mask, annotations, tf_matrix, pid) in enumerate(
                         lung_mask=lung_mask[0, 0] if lung_mask is not None else x[0, 0],
                         axis=0, pid='-'.join([str(n), str(nodule_n), str(pid)]),
                         img_dir=outputs_path, idx=zyxd)
-    print 'saved plot'
-    print 'time since start:', (time.time() - start_time) / 60.
+    print('saved plot')
+    print('time since start:', (time.time() - start_time) / 60.)
 
     jobs = [job for job in jobs if job.is_alive]
     if len(jobs) >= 3:

@@ -1,8 +1,7 @@
-import cPickle as pickle
+import pickle
 import string
 import sys
 import time
-from itertools import izip
 import lasagne as nn
 import numpy as np
 import theano
@@ -40,14 +39,14 @@ data_iterator = data_iterators.FixedCandidatesLunaDataGenerator(data_path=pathfi
                                                                 id2candidates_path=id2candidates_path,
                                                                 top_n=4)
 
-print
-print 'Data'
-print 'n samples: %d' % data_iterator.nsamples
+print()
+print('Data')
+print('n samples: %d' % data_iterator.nsamples)
 
 prev_pid = None
 i = 0
 for (x_chunk_train, y_chunk_train, id_train) in data_iterator.generate():
-    print id_train
+    print(id_train)
     pid = id_train[0]
     if pid == prev_pid:
         i += 1

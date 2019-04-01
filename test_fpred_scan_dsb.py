@@ -51,11 +51,11 @@ if tta == 'tta':
     data_iterator = config().tt_data_iterator
 
     #existing_preds = [f.rsplit('.') for f in os.listdir(outputs_path)]
-    #print existing_preds
+    #print(existing_preds)
 
-    print
-    print 'Data'
-    print 'n samples: %d' % data_iterator.nsamples
+    print()
+    print('Data')
+    print('n samples: %d' % data_iterator.nsamples)
 
     prev_pid = None
     candidates = []
@@ -63,22 +63,22 @@ if tta == 'tta':
     for n, (x, candidate_zyxd, pid) in enumerate(data_iterator.generate()):
 
         if pid != prev_pid and prev_pid is not None:
-            print patients_count, prev_pid, len(candidates)
+            print(patients_count, prev_pid, len(candidates))
             candidates = np.asarray(candidates)
             a = np.asarray(sorted(candidates, key=lambda x: x[-1], reverse=True))
             utils.save_pkl(a, outputs_path + '/%s.pkl' % prev_pid)
-            print 'saved predictions'
+            print('saved predictions')
             patients_count += 1
             candidates = []
         
         preds = []
         for bidx, pos in enumerate(range(0,x.shape[0],16)):
-            print bidx
+            print(bidx)
             x_batch = x[pos:pos+16]
             x_shared.set_value(x)
             predictions = get_predictions_patch()
             predictions = predictions[:, 1] if predictions.shape[-1] == 2 else predictions
-            #print "predictions", predictions
+            #print("predictions", predictions)
             preds.append(predictions)
         
         preds = np.concatenate(preds)
@@ -89,20 +89,20 @@ if tta == 'tta':
         prev_pid = pid
 
     # save the last one
-    print patients_count, prev_pid, len(candidates)
+    print(patients_count, prev_pid, len(candidates))
     candidates = np.asarray(candidates)
     a = np.asarray(sorted(candidates, key=lambda x: x[-1], reverse=True))
     utils.save_pkl(a, outputs_path + '/%s.pkl' % prev_pid)
-    print 'saved predictions'
+    print('saved predictions')
 else:
     data_iterator = config().data_iterator
 
     #existing_preds = [f.rsplit('.') for f in os.listdir(outputs_path)]
-    #print existing_preds
+    #print(existing_preds)
 
-    print
-    print 'Data'
-    print 'n samples: %d' % data_iterator.nsamples
+    print()
+    print('Data')
+    print('n samples: %d' % data_iterator.nsamples)
 
     prev_pid = None
     candidates = []
@@ -111,11 +111,11 @@ else:
         pid = id[0]
 
         if pid != prev_pid and prev_pid is not None:
-            print patients_count, prev_pid, len(candidates)
+            print(patients_count, prev_pid, len(candidates))
             candidates = np.asarray(candidates)
             a = np.asarray(sorted(candidates, key=lambda x: x[-1], reverse=True))
             utils.save_pkl(a, outputs_path + '/%s.pkl' % prev_pid)
-            print 'saved predictions'
+            print('saved predictions')
             patients_count += 1
             candidates = []
 
@@ -128,8 +128,8 @@ else:
         prev_pid = pid
 
     # save the last one
-    print patients_count, prev_pid, len(candidates)
+    print(patients_count, prev_pid, len(candidates))
     candidates = np.asarray(candidates)
     a = np.asarray(sorted(candidates, key=lambda x: x[-1], reverse=True))
     utils.save_pkl(a, outputs_path + '/%s.pkl' % prev_pid)
-    print 'saved predictions'
+    print('saved predictions')

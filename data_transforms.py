@@ -76,7 +76,7 @@ def histogram_equalization(x, hist=None, bins=None):
         elements_to_rescale = np.logical_and(x>=low_orig, x<high_orig)
         y = x[elements_to_rescale]
         y_r = (y - low_orig)/(high_orig-low_orig)*(upper_bound-lower_bound) + lower_bound
-        print 'y_r', np.isnan(y_r).any()
+        print('y_r', np.isnan(y_r).any())
         z[elements_to_rescale] = y_r
 
     return z
@@ -117,20 +117,20 @@ def apply_hist_eq_patch(x, bins, original_borders):
     z = np.empty(x.shape)
 
     # if np.isnan(z).any():
-    #     print '1 np.isnan(z).any()', np.isnan(z).any()
+    #     print('1 np.isnan(z).any()', np.isnan(z).any())
 
     # copy the values outside of the bins from the original
     z[x<=bins[0]] = x[x<=bins[0]] 
     z[x>=bins[-1]] = x[x>=bins[-1]] 
-    # print 'x.shape', x.shape, x.shape[0] * x.shape[1] * x.shape[2] * x.shape[3]
-    # print 'np.sum(x<=bins[0])', np.sum(x<=bins[0])
-    # print 'np.sum(x>=bins[-1])', np.sum(x>=bins[-1])
+    # print('x.shape', x.shape, x.shape[0] * x.shape[1] * x.shape[2] * x.shape[3])
+    # print('np.sum(x<=bins[0])', np.sum(x<=bins[0]))
+    # print('np.sum(x>=bins[-1])', np.sum(x>=bins[-1]))
 
     # if np.isnan(z).any():
-    #     print '2 np.isnan(z).any()', np.isnan(z).any()
+    #     print('2 np.isnan(z).any()', np.isnan(z).any())
 
     inside_bins = np.logical_and(x>bins[0], x<bins[-1])
-    # print 'np.sum(inside_bins)', np.sum(inside_bins)
+    # print('np.sum(inside_bins)', np.sum(inside_bins))
 
     n_total_elements_replaced = 0
     n_bins = bins.shape[0] -1
@@ -142,16 +142,16 @@ def apply_hist_eq_patch(x, bins, original_borders):
 
         elements_to_rescale = np.logical_and(x>=low_orig, x<high_orig)
         n_total_elements_replaced += np.sum(elements_to_rescale)    
-        # print 'np.sum(elements_to_rescale)', np.sum(elements_to_rescale)  
+        # print('np.sum(elements_to_rescale)', np.sum(elements_to_rescale))
         y = x[elements_to_rescale]
         y_r = (y - low_orig)/(high_orig-low_orig)*(upper_bound-lower_bound) + lower_bound
 
         z[elements_to_rescale] = y_r
 
     #     if np.isnan(z).any():
-    #         print 'np.isnan(z).any()', np.isnan(z).any()
+    #         print('np.isnan(z).any()', np.isnan(z).any())
 
-    # print 'n_total_elements_replaced', n_total_elements_replaced
+    # print('n_total_elements_replaced', n_total_elements_replaced)
         
     return z
 
@@ -258,7 +258,7 @@ def transform_patch3d(data, pixel_spacing, p_transform,
 
     if p_transform_augment:
         augment_params_sample = sample_augmentation_parameters(p_transform_augment)
-        # print 'augmentation parameters', augment_params_sample
+        # print('augmentation parameters', augment_params_sample)
         tf_augment = affine_transform(translation=augment_params_sample.translation,
                                       rotation=augment_params_sample.rotation)
         tf_total = tf_mm_scale.dot(tf_shift_center).dot(tf_augment).dot(tf_shift_uncenter).dot(tf_output_scale)
@@ -273,7 +273,7 @@ def transform_patch3d(data, pixel_spacing, p_transform,
     voxel_coords = np.append(voxel_coords, [1])
     voxel_coords_out = np.linalg.inv(tf_total).dot(voxel_coords)[:3]
     patch_annotation_out = np.rint(np.append(voxel_coords_out, diameter_out))
-    # print 'pathch_center_after_transform', patch_annotation_out
+    # print('pathch_center_after_transform', patch_annotation_out)
 
     if luna_annotations is not None:
         annotatations_out = []
@@ -321,7 +321,7 @@ def transform_patch3d_ls(data, pixel_spacing, p_transform,
 
     if p_transform_augment:
         augment_params_sample = sample_augmentation_parameters(p_transform_augment)
-        # print 'augmentation parameters', augment_params_sample
+        # print('augmentation parameters', augment_params_sample)
         tf_augment = affine_transform(translation=augment_params_sample.translation,
                                       rotation=augment_params_sample.rotation)
         tf_total = tf_mm_scale.dot(tf_shift_center).dot(tf_augment).dot(tf_shift_uncenter).dot(tf_output_scale)
@@ -329,15 +329,15 @@ def transform_patch3d_ls(data, pixel_spacing, p_transform,
         tf_total = tf_mm_scale.dot(tf_shift_center).dot(tf_shift_uncenter).dot(tf_output_scale)
 
 
-    print 'data min,max', np.amin(data), np.amax(data)
+    print('data min,max', np.amin(data), np.amax(data))
     data_out = apply_affine_transform(data, tf_total, order=1, output_shape=output_shape)
-    print 'data_out min,max', np.amin(data_out), np.amax(data_out)
+    print('data_out min,max', np.amin(data_out), np.amax(data_out))
 
     # transform patch annotations
     # voxel_coords = np.append(voxel_coords, [1])
     # voxel_coords_out = np.linalg.inv(tf_total).dot(voxel_coords)[:3]
     # patch_annotation_out = np.rint(voxel_coords_out)
-    # print 'pathch_center_after_transform', patch_annotation_out
+    # print('pathch_center_after_transform', patch_annotation_out)
 
     return data_out #, patch_annotation_out
 
@@ -449,10 +449,10 @@ def build_dsb_can_heatmap(data, candidates, pixel_spacing, p_transform,
         zyx_hm = zyx_mm / max_shape * output_shape
         heatmap[zyx_hm.astype('int')] += value 
 
-    # print 'max_dims', max_dims
-    # print 'min_dims', min_dims
-    # print 'heatmap max', np.amax(heatmap)
-    # print 'heatmap min', np.amin(heatmap)
+    # print('max_dims', max_dims)
+    # print('min_dims', min_dims)
+    # print('heatmap max', np.amax(heatmap))
+    # print('heatmap min', np.amin(heatmap))
 
     # augmentation
     if p_transform_augment:

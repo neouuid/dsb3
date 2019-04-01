@@ -42,8 +42,8 @@ def test1():
 
     luna_data_paths = utils_lung.get_patient_data_paths(pathfinder.LUNA_DATA_PATH)
     luna_data_paths = [p for p in luna_data_paths if '.mhd' in p]
-    print len(luna_data_paths)
-    print id2zyxd.keys()
+    print(len(luna_data_paths))
+    print(id2zyxd.keys())
 
     for k, p in enumerate(luna_data_paths):
         img, origin, spacing = utils_lung.read_mhd(p)
@@ -52,15 +52,15 @@ def test1():
         for roi in id2zyxd[id]:
             zyx = np.array(roi[:3])
             voxel_coords = utils_lung.world2voxel(zyx, origin, spacing)
-            print spacing
+            print(spacing)
             radius_mm = roi[-1] / 2.
             radius_px = radius_mm / spacing[1]
-            print 'r in pixels =', radius_px
+            print('r in pixels =', radius_px)
             # roi_radius = (32.5, 32.5)
             roi_radius = (radius_px, radius_px)
             slice = img[voxel_coords[0], :, :]
             roi_center_yx = (voxel_coords[1], voxel_coords[2])
-            # print slice.shape, slice_resample.shape
+            # print(slice.shape, slice_resample.shape)
             mask = make_circular_mask(slice.shape, roi_center_yx, roi_radius)
             plot_2d(slice, mask, id, image_dir)
 
@@ -74,7 +74,7 @@ def test2():
     image_dir = utils.get_dir_path('analysis', pathfinder.METADATA_PATH)
     luna_data_paths = utils_lung.get_patient_data_paths(pathfinder.LUNA_DATA_PATH)
     luna_data_paths = [p for p in luna_data_paths if '.mhd' in p]
-    print len(luna_data_paths)
+    print(len(luna_data_paths))
     pid2mm_shape = {}
 
     for k, p in enumerate(luna_data_paths):
@@ -82,9 +82,9 @@ def test2():
         id = os.path.basename(p).replace('.mhd', '')
         mm_shape = img.shape * spacing
         pid2mm_shape[id] = mm_shape
-        print k, id, mm_shape
+        print(k, id, mm_shape)
         if k % 50 == 0:
-            print 'Saved'
+            print('Saved')
             utils.save_pkl(pid2mm_shape, image_dir + '/pid2mm.pkl')
 
     utils.save_pkl(pid2mm_shape, image_dir + '/pid2mm.pkl')
@@ -94,11 +94,11 @@ def test3():
     image_dir = utils.get_dir_path('analysis', pathfinder.METADATA_PATH)
     id2mm_shape = utils.load_pkl(image_dir + '/pid2mm.pkl')
     s = [(key, value) for (key, value) in sorted(id2mm_shape.items(), key=lambda x: x[1][0])]
-    for i in xrange(5):
-        print s[i]
-    print '--------------------------'
-    for i in xrange(1,6):
-        print s[-i]
+    for i in range(5):
+        print(s[i])
+    print('--------------------------')
+    for i in range(1,6):
+        print(s[-i])
 
 
 if __name__ == '__main__':

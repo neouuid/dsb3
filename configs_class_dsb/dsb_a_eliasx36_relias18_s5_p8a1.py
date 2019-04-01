@@ -121,9 +121,9 @@ batch_size = 1
 
 train_valid_ids = utils.load_pkl(pathfinder.VALIDATION_SPLIT_PATH)
 train_pids, valid_pids, test_pids = train_valid_ids['training'], train_valid_ids['validation'], train_valid_ids['test']
-print 'n train', len(train_pids)
-print 'n valid', len(valid_pids)
-print 'n test', len(test_pids)
+print('n train', len(train_pids))
+print('n valid', len(valid_pids))
+print('n test', len(test_pids))
 
 train_data_iterator = data_iterators.DSBPatientsDataGenerator(data_path=pathfinder.DATA_PATH,
                                                               batch_size=batch_size,
@@ -291,7 +291,7 @@ def load_pretrained_model(l_in):
     nn.layers.set_all_param_values(l_out, metadata['param_values'])
 
     features = nn.layers.get_all_layers(l_out)[(-2-len(final_layers))]
-    print 'features layer', features.name
+    print('features layer', features.name)
 
     return features
 

@@ -47,11 +47,11 @@ get_predictions_patch = theano.function([],
 data_iterator = config().data_iterator
 
 #existing_preds = [f.rsplit('.') for f in os.listdir(outputs_path)]
-#print existing_preds
+#print(existing_preds)
 
-print
-print 'Data'
-print 'n samples: %d' % data_iterator.nsamples
+print()
+print('Data')
+print('n samples: %d' % data_iterator.nsamples)
 
 prev_pid = None
 candidates = []
@@ -61,22 +61,22 @@ for n, (x, candidate_zyxd, id) in enumerate(data_iterator.generate()):
     pid = id[0]
 
     if pid != prev_pid and prev_pid is not None:
-        print patients_count, prev_pid, len(candidates)
+        print(patients_count, prev_pid, len(candidates))
         candidates = np.asarray(candidates)
         a = np.asarray(sorted(candidates, key=lambda x: x[-1], reverse=True))
-        print 'max malignancies', a[:10,-1]
+        print('max malignancies', a[:10,-1])
         utils.save_pkl(a, outputs_path + '/%s.pkl' % prev_pid)
-        print 'saved predictions'
+        print('saved predictions')
         patients_count += 1
         candidates = []
 
     x_shared.set_value(x)
     predictions = get_predictions_patch()
-    #print 'predictions.shape', predictions.shape
+    #print('predictions.shape', predictions.shape)
     total_malignancy = np.sum(config().malignancy_weights*predictions)
 
-    #print 'total_malignancy', total_malignancy
-    #print 'candidate_zyxd', candidate_zyxd
+    #print('total_malignancy', total_malignancy)
+    #print('candidate_zyxd', candidate_zyxd)
     candidate_zyxd_pred = np.append(candidate_zyxd, [predictions])
     candidate_zyxd_pred_mal = np.append(candidate_zyxd_pred, [[total_malignancy]])
     candidates.append(candidate_zyxd_pred_mal)
@@ -84,8 +84,8 @@ for n, (x, candidate_zyxd, id) in enumerate(data_iterator.generate()):
     prev_pid = pid
 
 # save the last one
-print patients_count, prev_pid, len(candidates)
+print(patients_count, prev_pid, len(candidates))
 candidates = np.asarray(candidates)
 a = np.asarray(sorted(candidates, key=lambda x: x[-1], reverse=True))
 utils.save_pkl(a, outputs_path + '/%s.pkl' % prev_pid)
-print 'saved predictions'
+print('saved predictions')

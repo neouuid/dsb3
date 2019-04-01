@@ -14,7 +14,7 @@ def test_luna3d():
     # path = '/mnt/sda3/data/kaggle-lung/lunapred/luna_scan_v3_dice-20170131-173443/'
     path = '/mnt/sda3/data/kaggle-lung/lunapred_el/luna_scan_v3_dice-20170201-231707/'
     files = os.listdir(path)
-    print files
+    print(files)
     x, y, p = [], [], []
     for f in files:
         if 'in' in f:
@@ -30,9 +30,9 @@ def test_luna3d():
         x_batch = utils.load_pkl(path + xf)
         pred_batch = utils.load_pkl(path + pf)
         y_batch = utils.load_pkl(path + yf)
-        print xf
-        print yf
-        print pf
+        print(xf)
+        print(yf)
+        print(pf)
         # plot_2d_animation(x_batch[0], y_batch[0], pred_batch[0])
         plot_slice_3d_3(x_batch[0,0],y_batch[0,0],pred_batch[0,0],0,'aa')
 

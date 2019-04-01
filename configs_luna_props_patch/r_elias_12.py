@@ -180,7 +180,7 @@ valid_data_iterator = data_iterators.CandidatesLunaPropsValidDataGenerator(data_
                                                                       return_enable_target_vector = True)
 
 
-print 'train_data_iterator.nsamples', train_data_iterator.nsamples
+print('train_data_iterator.nsamples', train_data_iterator.nsamples)
 nchunks_per_epoch = train_data_iterator.nsamples / chunk_size
 max_nchunks = nchunks_per_epoch * 100
 

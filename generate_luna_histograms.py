@@ -1,8 +1,7 @@
-import cPickle as pickle
+import pickle
 import string
 import sys
 import time
-from itertools import izip
 import numpy as np
 from datetime import datetime, timedelta
 import utils
@@ -32,7 +31,7 @@ histograms = {}
 # avg_histogram = np.zeros((bins.shape[0]-1), dtype=np.int64)
 # use buffering.buffered_gen_threaded()
 for idx, (x, pid) in enumerate(data_iterator.generate()):
-    print idx, 'pid', pid
+    print(idx, 'pid', pid)
     # if (idx == 10):
     #     break
     histograms[pid]= data_transforms.get_rescale_params_hist_eq(x)

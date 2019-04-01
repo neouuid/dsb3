@@ -50,8 +50,8 @@ batch_size = 4
 
 train_valid_ids = utils.load_pkl(pathfinder.VALIDATION_SPLIT_PATH)
 train_pids, valid_pids = train_valid_ids['training'], train_valid_ids['validation']
-print 'n train', len(train_pids)
-print 'n valid', len(valid_pids)
+print('n train', len(train_pids))
+print('n valid', len(valid_pids))
 
 train_data_iterator = data_iterators.DSBPatientsDataGenerator(data_path=pathfinder.DATA_PATH,
                                                               batch_size=batch_size,
@@ -112,33 +112,33 @@ def build_model():
     l_target = nn.layers.InputLayer((batch_size,))
 
     l = conv3(l_in_rshp, num_filters=64)
-    print l.output_shape
+    print(l.output_shape)
     l = conv3(l, num_filters=64)
-    print l.output_shape
+    print(l.output_shape)
 
     l = max_pool(l)
-    print l.output_shape
+    print(l.output_shape)
 
     l = conv3(l, num_filters=128)
-    print l.output_shape
+    print(l.output_shape)
     l = conv3(l, num_filters=128)
-    print l.output_shape
+    print(l.output_shape)
     l = conv3(l, num_filters=128)
-    print l.output_shape
-
-    l = max_pool(l)
-    print l.output_shape
-
-    l = conv3(l, num_filters=128)
-    print l.output_shape
-    l = conv3(l, num_filters=128)
-    print l.output_shape
+    print(l.output_shape)
 
     l = max_pool(l)
-    print l.output_shape
+    print(l.output_shape)
+
+    l = conv3(l, num_filters=128)
+    print(l.output_shape)
+    l = conv3(l, num_filters=128)
+    print(l.output_shape)
+
+    l = max_pool(l)
+    print(l.output_shape)
 
     l = conv3(l, num_filters=256)
-    print l.output_shape
+    print(l.output_shape)
 
     l = dense_prelu_layer(l, num_units=512)    
     l = dense_prelu_layer(l, num_units=512)    

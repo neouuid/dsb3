@@ -95,11 +95,11 @@ def candidates_prep_function_train(all_candidates, n_candidates, selection_pool_
 
     n_select = selection_pool_factor * n_candidates
     p_mal_sel = a[:n_select,a.shape[1]-1]
-    # print 'p_mal_sel', p_mal_sel
+    # print('p_mal_sel', p_mal_sel)
     p_mal_sel = p_mal_sel / np.sum(p_mal_sel)
     idcs = np.arange(n_select)
     idcs = rng.choice(idcs,n_candidates, replace=False, p=p_mal_sel)
-    # print 'idcs', idcs
+    # print('idcs', idcs)
     a = a[idcs]
     return a
 
@@ -129,9 +129,9 @@ batch_size = 2
 
 train_valid_ids = utils.load_pkl(pathfinder.VALIDATION_SPLIT_PATH)
 train_pids, valid_pids, test_pids = train_valid_ids['training'], train_valid_ids['validation'], train_valid_ids['test']
-print 'n train', len(train_pids)
-print 'n valid', len(valid_pids)
-print 'n test', len(test_pids)
+print('n train', len(train_pids))
+print('n valid', len(valid_pids))
+print('n test', len(test_pids))
 
 train_data_iterator = data_iterators.DSBPatientsDataGenerator(data_path=pathfinder.DATA_PATH,
                                                               batch_size=batch_size,
@@ -299,7 +299,7 @@ def load_pretrained_model(l_in):
     nn.layers.set_all_param_values(l_out, metadata['param_values'])
 
     features = nn.layers.get_all_layers(l_out)[(-2-len(final_layers))]
-    print 'features layer', features.name
+    print('features layer', features.name)
 
     return features
 

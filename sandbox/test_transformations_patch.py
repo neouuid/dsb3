@@ -26,10 +26,10 @@ def test_luna_patches_3d():
         img, origin, pixel_spacing = utils_lung.read_mhd(p)
         # img = data_transforms.hu2normHU(img)
         id = os.path.basename(p).replace('.mhd', '')
-        print id
+        print(id)
 
         annotations = id2zyxd[id]
-        print annotations
+        print(annotations)
         for zyxd in annotations:
             img_out, mask = config().data_prep_function_train(img,
                                                               pixel_spacing=pixel_spacing,
@@ -44,7 +44,7 @@ def test_luna_patches_3d():
                 plot_slice_3d_2(img_out, mask, 2, id)
             except:
                 pass
-        print '------------------------------------------'
+        print('------------------------------------------')
 
 
 if __name__ == '__main__':

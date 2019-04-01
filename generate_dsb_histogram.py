@@ -1,8 +1,7 @@
-import cPickle as pickle
+import pickle
 import string
 import sys
 import time
-from itertools import izip
 import numpy as np
 from datetime import datetime, timedelta
 import utils
@@ -25,9 +24,9 @@ utils.auto_make_dir(outputs_path)
 
 train_valid_ids = utils.load_pkl(pathfinder.VALIDATION_SPLIT_PATH)
 train_pids, valid_pids, test_pids = train_valid_ids['training'], train_valid_ids['validation'], train_valid_ids['test']
-print 'n train', len(train_pids)
-print 'n valid', len(valid_pids)
-print 'n test', len(test_pids)
+print('n train', len(train_pids))
+print('n valid', len(valid_pids))
+print('n test', len(test_pids))
 
 all_pids = train_pids + valid_pids + test_pids
 
@@ -38,7 +37,7 @@ bins = np.arange(-960,1700,40)
 # avg_histogram = np.zeros((bins.shape[0]-1), dtype=np.int64)
 # use buffering.buffered_gen_threaded()
 for idx, (x, pid) in enumerate(data_iterator.generate()):
-    print idx, 'pid', pid
+    print(idx, 'pid', pid)
     histograms[pid]= data_transforms.get_rescale_params_hist_eq(x)
 
 

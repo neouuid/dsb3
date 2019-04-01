@@ -65,7 +65,7 @@ class LunaDataGenerator(object):
             rand_idxs = np.arange(self.nsamples)
             if self.random:
                 self.rng.shuffle(rand_idxs)
-            for pos in xrange(0, len(rand_idxs)):
+            for pos in range(0, len(rand_idxs)):
                 idx = rand_idxs[pos]
 
                 patient_path = self.patient_paths[idx]
@@ -104,7 +104,7 @@ class LunaSimpleDataGenerator(object):
         
         self.nsamples = len(self.patient_paths)
 
-        print self.data_path
+        print(self.data_path)
 
     def generate(self):
         for patient_path in self.patient_paths:
@@ -143,7 +143,7 @@ class LunaScanPositiveLungMaskDataGenerator(LunaDataGenerator):
             rand_idxs = np.arange(self.nsamples)
             if self.random:
                 self.rng.shuffle(rand_idxs)
-            for pos in xrange(0, len(rand_idxs)):
+            for pos in range(0, len(rand_idxs)):
                 idx = rand_idxs[pos]
 
                 patient_path = self.patient_paths[idx]
@@ -181,7 +181,7 @@ class LunaScanMaskPositiveDataGenerator(LunaDataGenerator):
             rand_idxs = np.arange(self.nsamples)
             if self.random:
                 self.rng.shuffle(rand_idxs)
-            for pos in xrange(0, len(rand_idxs)):
+            for pos in range(0, len(rand_idxs)):
                 idx = rand_idxs[pos]
 
                 ct_scan_path = self.patient_paths[idx]
@@ -219,7 +219,7 @@ class PatchLunaDataGenerator(object):
             self.patient_ids = patient_ids
             #self.patient_paths = [data_path + '/' + p + '.mhd' for p in patient_ids]
         else:
-            patient_paths = utils_lung.get_patient_data_paths(data_path)
+            patient_paths = utils_lung.get_patient_data_paths(ct_data_path)
             #self.patient_paths = [p for p in patient_paths if '.mhd' in p]
             self.patient_ids = [utils_lung.extract_pid_filename(p) for p in self.patient_paths]\
 
@@ -239,7 +239,7 @@ class PatchLunaDataGenerator(object):
             rand_idxs = np.arange(self.nsamples)
             if self.random:
                 self.rng.shuffle(rand_idxs)
-            for pos in xrange(0, len(rand_idxs), self.batch_size):
+            for pos in range(0, len(rand_idxs), self.batch_size):
                 idxs_batch = rand_idxs[pos:pos + self.batch_size]
                 nb = len(idxs_batch)
                 # allocate batches
@@ -259,13 +259,13 @@ class PatchLunaDataGenerator(object):
                     assert(np.sum(ct_origin-seg_origin) <  1e-9)
                     assert(np.sum(ct_pixel_spacing-seg_pixel_spacing) <  1e-9)
 
-                    print 'ct_img.shape', ct_img.shape
-                    print 'seg_img.shape', seg_img.shape
+                    print('ct_img.shape', ct_img.shape)
+                    print('seg_img.shape', seg_img.shape)
                     w,h,d = self.transform_params['patch_size']
                     patch_center = [self.rng.randint(w/2, ct_img.shape[0]-w/2),
                                     self.rng.randint(h/2, ct_img.shape[1]-h/2),
                                     self.rng.randint(d/2, ct_img.shape[1]-d/2)]
-                    print patch_center
+                    print(patch_center)
 
 
                     x_batch[i, 0, :, :, :], y_batch[i, 0, :, :, :]  = self.data_prep_fun(ct_img=ct_img, seg_img=seg_img,
@@ -314,8 +314,8 @@ class LunaScanDataGenerator(object):
             assert(np.sum(ct_origin-seg_origin) <  1e-9)
             assert(np.sum(ct_pixel_spacing-seg_pixel_spacing) <  1e-9)
 
-            print 'ct_img.shape', ct_img.shape
-            print 'seg_img.shape', seg_img.shape
+            print('ct_img.shape', ct_img.shape)
+            print('seg_img.shape', seg_img.shape)
 
             yield ct_img, seg_img, pid
 
@@ -351,7 +351,7 @@ class PatchPositiveLunaDataGenerator(object):
             rand_idxs = np.arange(self.nsamples)
             if self.random:
                 self.rng.shuffle(rand_idxs)
-            for pos in xrange(0, len(rand_idxs), self.batch_size):
+            for pos in range(0, len(rand_idxs), self.batch_size):
                 idxs_batch = rand_idxs[pos:pos + self.batch_size]
                 nb = len(idxs_batch)
                 # allocate batches
@@ -441,12 +441,12 @@ class CandidatesLunaDataGenerator(object):
                 n_positive += len(id2positive_annotations[pid])
                 n_negative += len(id2negative_annotations[pid])
 
-        print 'n positive', n_positive
-        print 'n negative', n_negative
+        print('n positive', n_positive)
+        print('n negative', n_negative)
 
         self.nsamples = len(self.patient_paths)
 
-        print 'n patients', self.nsamples
+        print('n patients', self.nsamples)
         self.data_path = data_path
         self.batch_size = batch_size
         self.rng = rng
@@ -462,7 +462,7 @@ class CandidatesLunaDataGenerator(object):
             rand_idxs = np.arange(self.nsamples)
             if self.random:
                 self.rng.shuffle(rand_idxs)
-            for pos in xrange(0, len(rand_idxs), self.batch_size):
+            for pos in range(0, len(rand_idxs), self.batch_size):
                 idxs_batch = rand_idxs[pos:pos + self.batch_size]
                 nb = len(idxs_batch)
                 # allocate batches
@@ -522,12 +522,12 @@ class CandidatesLunaDataGenerator(object):
                 n_positive += len(id2positive_annotations[pid])
                 n_negative += len(id2negative_annotations[pid])
 
-        print 'n positive', n_positive
-        print 'n negative', n_negative
+        print('n positive', n_positive)
+        print('n negative', n_negative)
 
         self.nsamples = len(self.patient_paths)
 
-        print 'n patients', self.nsamples
+        print('n patients', self.nsamples)
         self.data_path = data_path
         self.batch_size = batch_size
         self.rng = rng
@@ -544,7 +544,7 @@ class CandidatesLunaDataGenerator(object):
             rand_idxs = np.arange(self.nsamples)
             if self.random:
                 self.rng.shuffle(rand_idxs)
-            for pos in xrange(0, len(rand_idxs), self.batch_size):
+            for pos in range(0, len(rand_idxs), self.batch_size):
                 idxs_batch = rand_idxs[pos:pos + self.batch_size]
                 nb = len(idxs_batch)
                 # allocate batches
@@ -614,8 +614,8 @@ class CandidatesLunaValidDataGenerator(object):
                 n_positive += n_pos
                 n_negative += n_pos
 
-        print 'n positive', n_positive
-        print 'n negative', n_negative
+        print('n positive', n_positive)
+        print('n negative', n_negative)
 
         self.nsamples = len(self.id2patient_path)
         self.data_path = data_path
@@ -678,12 +678,12 @@ class FixedCandidatesLunaDataGenerator(object):
 
         for pid in self.id2candidates_path.iterkeys():
             patient_path = self.id2patient_path[pid]
-            print 'PATIENT', pid
+            print('PATIENT', pid)
             candidates = utils.load_pkl(self.id2candidates_path[pid])
             if self.top_n is not None:
                 candidates = candidates[:self.top_n]
-                print candidates
-            print 'n blobs', len(candidates)
+                print(candidates)
+            print('n blobs', len(candidates))
 
             img, origin, pixel_spacing = utils_lung.read_pkl(patient_path) \
                 if self.file_extension == '.pkl' else utils_lung.read_mhd(patient_path)
@@ -720,12 +720,12 @@ class CandidatesLunaSizeDataGenerator(object):
                 n_positive += len(id2positive_annotations[pid])
                 n_negative += len(id2negative_annotations[pid])
 
-        print 'n positive', n_positive
-        print 'n negative', n_negative
+        print('n positive', n_positive)
+        print('n negative', n_negative)
 
         self.nsamples = len(self.patient_paths)
 
-        print 'n patients', self.nsamples
+        print('n patients', self.nsamples)
         self.data_path = data_path
         self.batch_size = batch_size
         self.rng = rng
@@ -741,7 +741,7 @@ class CandidatesLunaSizeDataGenerator(object):
             rand_idxs = np.arange(self.nsamples)
             if self.random:
                 self.rng.shuffle(rand_idxs)
-            for pos in xrange(0, len(rand_idxs), self.batch_size):
+            for pos in range(0, len(rand_idxs), self.batch_size):
                 idxs_batch = rand_idxs[pos:pos + self.batch_size]
                 nb = len(idxs_batch)
                 # allocate batches
@@ -807,8 +807,8 @@ class CandidatesLunaSizeValidDataGenerator(object):
                 n_positive += n_pos
                 n_negative += n_pos
 
-        print 'n positive', n_positive
-        print 'n negative', n_negative
+        print('n positive', n_positive)
+        print('n negative', n_negative)
 
         self.nsamples = len(self.id2patient_path)
         self.data_path = data_path
@@ -867,12 +867,12 @@ class CandidatesLunaSizeBinDataGenerator(object):
                 n_positive += len(id2positive_annotations[pid])
                 n_negative += len(id2negative_annotations[pid])
 
-        print 'n positive', n_positive
-        print 'n negative', n_negative
+        print('n positive', n_positive)
+        print('n negative', n_negative)
 
         self.nsamples = len(self.patient_paths)
 
-        print 'n patients', self.nsamples
+        print('n patients', self.nsamples)
         self.data_path = data_path
         self.batch_size = batch_size
         self.rng = rng
@@ -889,7 +889,7 @@ class CandidatesLunaSizeBinDataGenerator(object):
             rand_idxs = np.arange(self.nsamples)
             if self.random:
                 self.rng.shuffle(rand_idxs)
-            for pos in xrange(0, len(rand_idxs), self.batch_size):
+            for pos in range(0, len(rand_idxs), self.batch_size):
                 idxs_batch = rand_idxs[pos:pos + self.batch_size]
                 nb = len(idxs_batch)
                 # allocate batches
@@ -922,7 +922,7 @@ class CandidatesLunaSizeBinDataGenerator(object):
                         y_batch[i] = 1. + ybin
                     else:
                         y_batch[i] = 0. 
-                    #print 'y_batch[i]', y_batch[i], 'diameter', diameter
+                    #print('y_batch[i]', y_batch[i], 'diameter', diameter)
 
                     x_batch[i, :, :, :] = self.data_prep_fun(data=img,
                                                                 patch_center=patch_center,
@@ -966,8 +966,8 @@ class CandidatesLunaSizeBinValidDataGenerator(object):
                 n_positive += n_pos
                 n_negative += n_pos
 
-        print 'n positive', n_positive
-        print 'n negative', n_negative
+        print('n positive', n_positive)
+        print('n negative', n_negative)
 
         self.nsamples = len(self.id2patient_path)
         self.data_path = data_path
@@ -1046,10 +1046,10 @@ class CandidatesLunaPropsDataGenerator(object):
                 self.neg_pids.append(pid)
                 n_negative += len(id2negative_annotations[pid])
             else:
-                print 'WARNING something weird happens'
+                print('WARNING something weird happens')
 
-        print 'n positive', n_positive
-        print 'n negative', n_negative
+        print('n positive', n_positive)
+        print('n negative', n_negative)
 
         self.n_neg_cans = n_negative
         self.n_pos_cans = n_positive
@@ -1058,7 +1058,7 @@ class CandidatesLunaPropsDataGenerator(object):
         self.n_neg_pids = len(self.neg_pids)
 
         self.nsamples = len(self.all_pids)
-        print 'n patients', self.nsamples
+        print('n patients', self.nsamples)
         self.data_path = data_path
         self.batch_size = batch_size
         self.rng = rng
@@ -1099,11 +1099,11 @@ class CandidatesLunaPropsDataGenerator(object):
                     if "centroid_xyz" in nodule:
                         dist = self.L2(patch_center[:3],nodule["centroid_xyz"][::-1])
                         if  dist < 5:
-                            #print 'found a very close nodule at', dist, ': ', patch_center[:3]
+                            #print('found a very close nodule at', dist, ': ', patch_center[:3])
                             nodule_characteristics.append(nodule['characteristics'])
 
             if len(nodule_characteristics)==0:
-                print 'WARNING: no nodule found in doctor annotations for ', patch_center
+                print('WARNING: no nodule found in doctor annotations for ', patch_center)
             else:
                 #calculate the median property values
                 for prop in nodule_characteristics[0]:
@@ -1144,7 +1144,7 @@ class CandidatesLunaPropsDataGenerator(object):
 
             n_pos_batch = int(np.rint(self.batch_size * self.positive_proportion))
             n_neg_batch = self.batch_size - n_pos_batch
-            for _idx, pos_pos in enumerate(xrange(0, len(rand_pos_idxs), n_pos_batch)):
+            for _idx, pos_pos in enumerate(range(0, len(rand_pos_idxs), n_pos_batch)):
                 pos_idxs_batch = rand_pos_idxs[pos_pos:pos_pos + n_pos_batch]
                 neg_idxs_batch = rand_neg_idxs[_idx * n_neg_batch:(_idx+1) * n_neg_batch]
 
@@ -1232,8 +1232,8 @@ class CandidatesLunaPropsValidDataGenerator(object):
                 n_positive += n_pos
                 n_negative += n_pos
 
-        print 'n positive', n_positive
-        print 'n negative', n_negative
+        print('n positive', n_positive)
+        print('n negative', n_negative)
 
         self.nsamples = len(self.id2patient_path)
         self.data_path = data_path
@@ -1272,11 +1272,11 @@ class CandidatesLunaPropsValidDataGenerator(object):
                     if "centroid_xyz" in nodule:
                         dist = self.L2(patch_center[:3],nodule["centroid_xyz"][::-1])
                         if  dist < 5:
-                            #print 'found a very close nodule at', dist, ': ', patch_center[:3]
+                            #print('found a very close nodule at', dist, ': ', patch_center[:3])
                             nodule_characteristics.append(nodule['characteristics'])
 
             if len(nodule_characteristics)==0:
-                print 'WARNING: no nodule found in doctor annotations for ', patch_center
+                print('WARNING: no nodule found in doctor annotations for ', patch_center)
             else:
                 #calculate the median property values
                 for prop in nodule_characteristics[0]:
@@ -1380,7 +1380,7 @@ class DSBScanLungMaskDataGenerator(object):
 
         if exclude_pids is not None:
             for ep in exclude_pids:
-                for i in xrange(len(self.patient_paths)):
+                for i in range(len(self.patient_paths)):
                     if ep in self.patient_paths[i]:
                         self.patient_paths.pop(i)
                         break
@@ -1426,12 +1426,12 @@ class CandidatesDSBDataGenerator(object):
 
         for pid in self.id2candidates_path.iterkeys():
             patient_path = self.id2patient_path[pid]
-            print pid, patient_path
+            print(pid, patient_path)
             img, pixel_spacing = utils_lung.read_dicom_scan(patient_path)
 
-            print self.id2candidates_path[pid]
+            print(self.id2candidates_path[pid])
             candidates = utils.load_pkl(self.id2candidates_path[pid])
-            print candidates.shape
+            print(candidates.shape)
             for candidate in candidates:
                 y_batch = np.array(candidate, dtype='float32')
                 patch_center = candidate[:3]
@@ -1465,12 +1465,12 @@ class CandidatesDSBDataGeneratorTTA(object):
 
         for pid in self.id2candidates_path.iterkeys():
             patient_path = self.id2patient_path[pid]
-            print pid, patient_path
+            print(pid, patient_path)
             img, pixel_spacing = utils_lung.read_dicom_scan(patient_path)
 
-            print self.id2candidates_path[pid]
+            print(self.id2candidates_path[pid])
             candidates = utils.load_pkl(self.id2candidates_path[pid])
-            print candidates.shape
+            print(candidates.shape)
             for candidate in candidates:
                 y_batch = np.array(candidate, dtype='float32')
                 patch_center = candidate[:3]
@@ -1480,7 +1480,7 @@ class CandidatesDSBDataGeneratorTTA(object):
                                                         patch_center=patch_center,
                                                         pixel_spacing=pixel_spacing)))
                 x_batch = np.stack(batch)
-                print x_batch.shape
+                print(x_batch.shape)
 
                 yield x_batch, y_batch, [pid]
 
@@ -1489,7 +1489,7 @@ class DSBFeatureDataGenerator(object):
     def __init__(self, data_path, batch_size, p_features,
                  rng, random, infinite, patient_ids=None):
 
-        print 'init DSBFeatureDataGenerator'
+        print('init DSBFeatureDataGenerator')
 
         self.id2label = utils_lung.read_labels(pathfinder.LABELS_PATH)
         self.patient_paths = []
@@ -1514,7 +1514,7 @@ class DSBFeatureDataGenerator(object):
             if self.random:
                 self.rng.shuffle(rand_idxs)
 
-            for pos in xrange(0, len(rand_idxs), self.batch_size):
+            for pos in range(0, len(rand_idxs), self.batch_size):
                 idxs_batch = rand_idxs[pos:pos + self.batch_size]
 
                 x_batch = np.zeros((self.batch_size,)
@@ -1580,7 +1580,7 @@ class DSBPatientsDataGenerator(object):
             if self.random:
                 self.rng.shuffle(rand_idxs)
 
-            for pos in xrange(0, len(rand_idxs), self.batch_size):
+            for pos in range(0, len(rand_idxs), self.batch_size):
                 idxs_batch = rand_idxs[pos:pos + self.batch_size]
 
                 x_batch = np.zeros((self.batch_size, self.n_candidates_per_patient,)
@@ -1650,8 +1650,8 @@ class DSBPatientsDataGeneratorTTA(object):
         self.candidates_prep_fun = candidates_prep_fun
 
     def generate(self):
-        print 
-        for idx in xrange(self.nsamples):
+        print()
+        for idx in range(self.nsamples):
             x_batch = np.zeros((self.tta, self.n_candidates_per_patient,)
                                + self.transform_params['patch_size'], dtype='float32')
 
@@ -1697,7 +1697,7 @@ class DSBPixelSpacingsGenerator(object):
 
     def generate(self):
 
-        for idx in xrange(self.nsamples):
+        for idx in range(self.nsamples):
 
             patient_path = self.patient_paths[idx]
             pid = utils_lung.extract_pid_dir(patient_path)
@@ -1739,7 +1739,7 @@ class DSBPatientsDataGenerator_only_heatmap(object):
             if self.random:
                 self.rng.shuffle(rand_idxs)
 
-            for pos in xrange(0, len(rand_idxs), self.batch_size):
+            for pos in range(0, len(rand_idxs), self.batch_size):
                 idxs_batch = rand_idxs[pos:pos + self.batch_size]
 
                 x_batch = np.zeros((self.batch_size,)
@@ -1803,7 +1803,7 @@ class DSBPatientsDataGeneratorRandomSelectionNonCancerous(object):
             if self.random:
                 self.rng.shuffle(rand_idxs)
 
-            for pos in xrange(0, len(rand_idxs), self.batch_size):
+            for pos in range(0, len(rand_idxs), self.batch_size):
                 idxs_batch = rand_idxs[pos:pos + self.batch_size]
 
                 x_batch = np.zeros((self.batch_size, self.n_candidates_per_patient, 1,)
@@ -1866,8 +1866,8 @@ class BalancedDSBPatientsDataGenerator(object):
                 self.neg_ids.append(pid)
         self.n_pos_ids = len(self.pos_ids)
         self.n_neg_ids = len(self.neg_ids)
-        print 'n positive ids', self.n_pos_ids
-        print 'n negative ids', self.n_neg_ids
+        print('n positive ids', self.n_pos_ids)
+        print('n negative ids', self.n_neg_ids)
         self.all_pids = patient_ids
         self.nsamples = len(self.all_pids)
 
@@ -1976,14 +1976,14 @@ class CandidatesPropertiesLunaDataGenerator(object):
                 self.id2negative_annotations[pid] = id2negative_annotations[pid]
 
         self.nsamples = int(n_positive + (1. - positive_proportion) / positive_proportion * n_positive)
-        print 'n samples', self.nsamples
+        print('n samples', self.nsamples)
         self.idx2pid_annotation = {}
         i = 0
         for pid, annotations in self.id2positive_annotations.iteritems():
             for a in annotations:
                 self.idx2pid_annotation[i] = (pid, a)
                 i += 1
-        print 'n positive', len(self.idx2pid_annotation.keys())
+        print('n positive', len(self.idx2pid_annotation.keys()))
 
         if random_negative_samples:
             while i < self.nsamples:
@@ -2021,7 +2021,7 @@ class CandidatesPropertiesLunaDataGenerator(object):
             rand_idxs = np.arange(self.nsamples)
             if self.random:
                 self.rng.shuffle(rand_idxs)
-            for pos in xrange(0, len(rand_idxs), self.batch_size):
+            for pos in range(0, len(rand_idxs), self.batch_size):
                 idxs_batch = rand_idxs[pos:pos + self.batch_size]
                 nb = len(idxs_batch)
                 # allocate batches
@@ -2041,7 +2041,7 @@ class CandidatesPropertiesLunaDataGenerator(object):
                     patients_ids.append(pid)
 
                     y_batch[i] = self.label_prep_fun(patch_annotation,self.properties_included)
-                    # print pid, y_batch[i]
+                    # print(pid, y_batch[i])
 
                     img, origin, pixel_spacing = utils_lung.read_pkl(patient_path) \
                         if self.file_extension == '.pkl' else utils_lung.read_mhd(patient_path)
@@ -2085,14 +2085,14 @@ class CandidatesPropertiesLunaDataGenerator2(object):
                 self.id2negative_annotations[pid] = id2negative_annotations[pid]
 
         self.nsamples = int(n_positive + (1. - positive_proportion) / positive_proportion * n_positive)
-        print 'n samples', self.nsamples
+        print('n samples', self.nsamples)
         self.idx2pid_annotation = {}
         i = 0
         for pid, annotations in self.id2positive_annotations.iteritems():
             for a in annotations:
                 self.idx2pid_annotation[i] = (pid, a)
                 i += 1
-        print 'n positive', len(self.idx2pid_annotation.keys())
+        print('n positive', len(self.idx2pid_annotation.keys()))
 
         if random_negative_samples:
             while i < self.nsamples:
@@ -2130,7 +2130,7 @@ class CandidatesPropertiesLunaDataGenerator2(object):
             rand_idxs = np.arange(self.nsamples)
             if self.random:
                 self.rng.shuffle(rand_idxs)
-            for pos in xrange(0, len(rand_idxs), self.batch_size):
+            for pos in range(0, len(rand_idxs), self.batch_size):
                 idxs_batch = rand_idxs[pos:pos + self.batch_size]
                 nb = len(idxs_batch)
                 # allocate batches
@@ -2153,7 +2153,7 @@ class CandidatesPropertiesLunaDataGenerator2(object):
                     patients_ids.append(pid)
 
                     y_batch[i] = self.label_prep_fun(patch_annotation,self.properties_included)
-                    # print pid, y_batch[i]
+                    # print(pid, y_batch[i])
 
                     img, origin, pixel_spacing = utils_lung.read_pkl(patient_path) \
                         if self.file_extension == '.pkl' else utils_lung.read_mhd(patient_path)
@@ -2203,8 +2203,8 @@ class CandidatesLunaValidDataGenerator2(object):
                 n_positive += n_pos
                 n_negative += n_pos
 
-        print 'n positive', n_positive
-        print 'n negative', n_negative
+        print('n positive', n_positive)
+        print('n negative', n_negative)
 
         self.nsamples = len(self.id2patient_path)
         self.data_path = data_path

@@ -19,7 +19,7 @@ predictions_dir = utils.get_dir_path('model-predictions', pathfinder.METADATA_PA
 outputs_path = predictions_dir + '/%s' % config_name
 
 blob_files = sorted(glob.glob(outputs_path + '/*.pkl'))
-# print blob_files
+# print(blob_files)
 
 pid2annotations = utils_lung.read_luna_annotations(pathfinder.LUNA_LABELS_PATH)
 
@@ -30,15 +30,15 @@ for p in blob_files:
     pid = utils_lung.extract_pid_filename(p, '.pkl')
     blobs = utils.load_pkl(p)
     n_blobs += len(blobs)
-    print pid
-    print 'n_blobs', len(blobs)
-    print 'tp / n pos ', int(np.sum(blobs[:, -1])), len(pid2annotations[pid])
+    print(pid)
+    print('n_blobs', len(blobs))
+    print('tp / n pos ', int(np.sum(blobs[:, -1])), len(pid2annotations[pid]))
     if int(np.sum(blobs[:, -1])) < len(pid2annotations[pid]):
-        print '-------- HERE!!!!!! ------------'
+        print('-------- HERE!!!!!! ------------')
     tp += np.sum(blobs[:, -1])
-    print '====================================='
+    print('=====================================')
 
-print 'n patients', len(blob_files)
-print 'TP', tp
-print 'n blobs', n_blobs
-print n_pos
+print('n patients', len(blob_files))
+print('TP', tp)
+print('n blobs', n_blobs)
+print(n_pos)

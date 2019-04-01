@@ -1,8 +1,7 @@
-import cPickle as pickle
+import pickle
 import string
 import sys
 import time
-from itertools import izip
 import numpy as np
 from datetime import datetime, timedelta
 import utils
@@ -32,7 +31,7 @@ pixel_spacings = {}
 
 # use buffering.buffered_gen_threaded()
 for idx, (pid, pixel_spacing) in enumerate(data_iterator.generate()):
-    print idx, pid, pixel_spacing
+    print(idx, pid, pixel_spacing)
     z.append(pixel_spacing[0])
     y.append(pixel_spacing[1])
     x.append(pixel_spacing[2])
@@ -40,6 +39,6 @@ for idx, (pid, pixel_spacing) in enumerate(data_iterator.generate()):
 
 
 utils.save_pkl(pixel_spacings, 'pixel_spacings_dsb.pkl')
-print 'z', min(z), max(z)
-print 'y', min(y), max(y)
-print 'x', min(x), max(x)
+print('z', min(z), max(z))
+print('y', min(y), max(y))
+print('x', min(x), max(x))

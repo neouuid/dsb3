@@ -178,8 +178,8 @@ def inception_resnet_v2_stem(lin):
 
     a = conv3d(l, 192//n_filt_red_f, filter_size=3, pad='valid') # in original inception-resnet-v2, conv stride should be 2
     b = max_pool3d(l, pool_size=3, stride=1) # in original inception-resnet-v2, stride is 2
-    print a.output_shape
-    print b.output_shape
+    print(a.output_shape)
+    print(b.output_shape)
     l = lasagne.layers.ConcatLayer([a, b])
 
     l = lasagne.layers.NonlinearityLayer(l, nonlinearity=lasagne.nonlinearities.rectify)

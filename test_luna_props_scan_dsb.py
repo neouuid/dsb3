@@ -47,11 +47,11 @@ get_predictions_patch = theano.function([],
 data_iterator = config().data_iterator
 
 #existing_preds = [f.rsplit('.') for f in os.listdir(outputs_path)]
-#print existing_preds
+#print(existing_preds)
 
-print
-print 'Data'
-print 'n samples: %d' % data_iterator.nsamples
+print()
+print('Data')
+print('n samples: %d' % data_iterator.nsamples)
 
 prev_pid = None
 candidates = []
@@ -61,25 +61,25 @@ for n, (x, candidate_zyxd, id) in enumerate(data_iterator.generate()):
     pid = id[0]
 
     if pid != prev_pid and prev_pid is not None:
-        print patients_count, prev_pid, len(candidates)
+        print(patients_count, prev_pid, len(candidates))
         candidates = np.asarray(candidates)
         utils.save_pkl(candidates, outputs_path + '/%s.pkl' % prev_pid)
         patients_count += 1
         candidates = []
 
-    #print 'x.shape', x.shape
+    #print('x.shape', x.shape)
     x_shared.set_value(x)
     predictions = get_predictions_patch()
-    #print 'predictions.shape', predictions.shape
-    #print 'candidate_zyxd', candidate_zyxd.shape
+    #print('predictions.shape', predictions.shape)
+    #print('candidate_zyxd', candidate_zyxd.shape)
 
     candidate_zyxd_pred = np.append(candidate_zyxd, [predictions])
-    #print 'candidate_zyxd_pred', candidate_zyxd_pred
+    #print('candidate_zyxd_pred', candidate_zyxd_pred)
     candidates.append(candidate_zyxd_pred)
 
     prev_pid = pid
 
 # save the last one
-print patients_count, prev_pid, len(candidates)
+print(patients_count, prev_pid, len(candidates))
 candidates = np.asarray(candidates)
 utils.save_pkl(candidates, outputs_path + '/%s.pkl' % prev_pid)

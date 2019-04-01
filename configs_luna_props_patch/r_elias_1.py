@@ -226,7 +226,7 @@ def build_model():
 
         final_layers.append(l_fin)
 
-    #print 'for debug purposes: unit_ptr', unit_ptr
+    #print('for debug purposes: unit_ptr', unit_ptr)
 
 
     l_out = nn.layers.ConcatLayer(final_layers, name = 'final_concat_layer')
@@ -262,7 +262,7 @@ def build_objective(model, deterministic=False, epsilon=1e-12):
         sum_of_objectives += objective(obj_idx, (unit_ptr, unit_ptr+n_classes), predictions, targets)
         unit_ptr = unit_ptr+n_classes
 
-    #print 'for debug purposes: unit_ptr', unit_ptr
+    #print('for debug purposes: unit_ptr', unit_ptr)
 
     return sum_of_objectives
 
