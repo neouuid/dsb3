@@ -11,7 +11,7 @@ This project update the code from python2 to python3.
 
 # How to build
 
-1. install pythoy 3.6+
+1. install python 3.6+
 
 2. install packages
 
